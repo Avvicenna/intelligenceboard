@@ -36,4 +36,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm run ci:install
       - name: Run Security Baseline
-        run: npm run security:baseline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm run security:baseline
