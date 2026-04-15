@@ -26,8 +26,6 @@
 
 <div align="center">
 
-<img src="public/pid.png" alt="IntelligenceBoard Clinical Cockpit" width="900" />
-
 <sub><i>Clinical Cockpit — unified real-time patient intelligence surface</i></sub>
 
 [![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
