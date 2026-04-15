@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import { initializeAbysLangfuseTracing } from './langfuse.config'
 import { getAbysSentryConfig, scrubAbysSentryEvent } from './sentry.config'
 
-const DASHBOARD_SENTRY_APP = 'sentra-dashboard'
+const DASHBOARD_SENTRY_APP = 'intelligenceboard'
 let initialized = false
 let sentryInitialized = false
 

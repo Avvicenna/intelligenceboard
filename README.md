@@ -60,17 +60,71 @@ _Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Health
 
 ## Features Overview
 
+### Clinical Intelligence
+
 | # | Feature | Status | Primary User |
-|---|---|---|---|
-| 1 | User Profile Dashboard | ✅ Live | All staff |
-| 2 | EMR Auto-Fill Engine | ✅ Live | Doctor, Nurse |
-| 3 | ICD-X Finder | ✅ Live | Doctor, Midwife |
-| 4 | LB1 Report Automation | ✅ Live | Administrator |
-| 5 | Audrey — Clinical AI | ✅ Live | Doctor |
-| 6 | ACARS — Internal Chat | ✅ Live | All staff |
-| 7 | CDSS — Decision Support | ✅ Live | Doctor, Midwife |
-| 8 | Crew Access Portal | ✅ Live | All staff |
-| 9 | Telemedicine | ✅ Live | Doctor, Patient |
+|---|---------|--------|--------------|
+| 1 | CDSS — Clinical Decision Support System | ✅ Live | Doctor, Midwife |
+| 2 | Vital Signs Monitoring & Instant Red Alerts | ✅ Live | Doctor, Nurse |
+| 3 | Clinical Trajectory Analysis | ✅ Live | Doctor |
+| 4 | Momentum & Deterioration Scoring Engine | ✅ Live | Doctor |
+| 5 | Time-to-Critical Prediction | ✅ Live | Doctor |
+| 6 | Convergence Pattern Detection | ✅ Live | Doctor, Nurse |
+| 7 | NEWS2 Early Warning Score | ✅ Live | Doctor, Nurse |
+| 8 | Disease Classifiers (Glucose, Hypertension, Occult Shock) | ✅ Live | Doctor |
+| 9 | Critical Mind — Clinical Reasoning Interface | ✅ Live | Doctor |
+| 10 | Medical Calculators (BMI, MAP, eGFR, qSOFA, GCS, + 13 more) | ✅ Live | Doctor, Midwife |
+
+### Patient Care
+
+| # | Feature | Status | Primary User |
+|---|---------|--------|--------------|
+| 11 | EMR Auto-Fill Engine (ePuskesmas RPA via Playwright) | ✅ Live | Doctor, Nurse |
+| 12 | ICD-X Finder & Diagnosis Coding | ✅ Live | Doctor, Midwife |
+| 13 | Telemedicine — LiveKit Video + Consultation | ✅ Live | Doctor, Patient |
+| 14 | Consultation Request & EMR Transfer Flow | ✅ Live | Doctor, Nurse |
+| 15 | Clinical Report Generator (PDF) | ✅ Live | Doctor, Administrator |
+| 16 | LB1 Report Automation | ✅ Live | Administrator |
+
+### Artificial Intelligence & Voice
+
+| # | Feature | Status | Primary User |
+|---|---------|--------|--------------|
+| 17 | Audrey — Voice Clinical Artificial Intelligence | ✅ Live | Doctor |
+| 18 | Speech-to-Text / Text-to-Speech Engine | ✅ Live | Doctor |
+| 19 | AI Insights & Clinical Narrative Generator | ✅ Live | Doctor |
+| 20 | Anamnesis Extractor (NLP → structured EMR fields) | ✅ Live | Doctor |
+
+### Operations & Administration
+
+| # | Feature | Status | Primary User |
+|---|---------|--------|--------------|
+| 21 | User Profile Dashboard | ✅ Live | All staff |
+| 22 | Hub — Crew Directory & Profiles | ✅ Live | All staff |
+| 23 | ACARS — Internal Communication | ✅ Live | All staff |
+| 24 | Admin Console (Users, Institutions, Registrations) | ✅ Live | Administrator |
+| 25 | NOTAM — Operational Notices System | ✅ Live | Administrator, Doctor |
+| 26 | Staff Geographic Map | ✅ Live | Administrator |
+| 27 | Online Status Tracker | ✅ Live | All staff |
+
+### Security & Compliance
+
+| # | Feature | Status | Primary User |
+|---|---------|--------|--------------|
+| 28 | Crew Access Portal (scrypt auth, HMAC sessions, 12h TTL) | ✅ Live | All staff |
+| 29 | Security Audit Log (PHI-safe, SHA-256 hashed user IDs) | ✅ Live | Administrator |
+| 30 | Screening Audit Logbook (immutable hash chain) | ✅ Live | Administrator |
+| 31 | Role-Based Access Control (RBAC) | ✅ Live | Administrator |
+
+### Real-time & Observability
+
+| # | Feature | Status | Primary User |
+|---|---------|--------|--------------|
+| 32 | Intelligence Dashboard (Socket.io live feeds) | ✅ Live | Doctor, Administrator |
+| 33 | Multi-Bridge Real-time (EMR · Telemedicine · NOTAM) | ✅ Live | System |
+| 34 | Langfuse Artificial Intelligence Observability | ✅ Live | System |
+| 35 | Sentry Error Tracking (PHI-scrubbed before send) | ✅ Live | System |
+| 36 | Health Check API (`/api/health`) | ✅ Live | System |
 
 ---
 
@@ -452,6 +506,405 @@ CREATE TABLE telemedicine_sessions (
 ```
 
 > ⚠️ Recordings contain PHI. Store encrypted (AES-256) at rest. Restrict access to authorized clinical staff only.
+
+---
+
+### 10. Vital Signs Monitoring & Instant Red Alerts
+
+Unified vital signs interface that ingests multi-source readings (manual entry, EMR bridge, device feed) and evaluates them in real time against physiological thresholds. Triggers instant red alerts with severity classification without waiting for CDSS inference.
+
+**Key Capabilities:**
+- Composite deterioration detection across 6+ vital parameters simultaneously
+- Instant alert generation: SpO₂ < 90%, MAP < 65 mmHg, GCS < 8, etc.
+- Velocity (rate-of-change) calculation per vital — detects rapid deterioration
+- AVPU ↔ GCS mapping for consciousness level normalization
+- Baseline deviation tracking per individual patient
+
+**API:** `GET /api/vitals/history?patientId=&limit=50`
+
+---
+
+### 11. Clinical Trajectory Analysis
+
+Longitudinal engine that tracks patient health vectors across time — combining vital trends, diagnosis history, and encounter outcomes into a clinical trajectory with forward momentum projection.
+
+**Key Capabilities:**
+- `TrajectoryIntelligencePanel` — consolidated view of all trajectory signals
+- `MomentumScoreCard` — single composite score summarizing clinical direction
+- `VitalTrendChart` & `VitalVelocityList` — graphical and tabular trend views
+- `AcuteAttackRiskGrid` / `AcuteAttackRiskRadar` — multi-axis acute decompensation risk
+- `ClinicalUrgencyMatrix` — classifies urgency from trajectory data
+
+**API:** `GET /api/patients/[id]/trajectory`
+
+---
+
+### 12. Momentum & Deterioration Scoring Engine
+
+Server-side engine (`lib/clinical/momentum-engine.ts`) that calculates a single normalized momentum score per patient encounter, representing the net clinical direction (improving / stable / deteriorating).
+
+**Score Interpretation:**
+
+| Score Range | Clinical State |
+|---|---|
+| > +0.6 | Improving |
+| -0.2 to +0.6 | Stable |
+| < -0.2 | Deteriorating |
+| < -0.6 | Critical — immediate action |
+
+**Inputs:** vital velocity, baseline deviation, CDSS urgency grade, diagnosis acuity weight.
+
+---
+
+### 13. Time-to-Critical Prediction
+
+`lib/clinical/prediction-engine.ts` extrapolates current vital velocity vectors to estimate time-to-critical threshold breach. Used in `TimeToCriticalTimeline` component and `MortalityRiskIndicator`.
+
+**Key Capabilities:**
+- Per-vital time-to-threshold calculation (SpO₂, MAP, GCS, temperature)
+- Mortality risk percentile based on convergence pattern score
+- Acute attack window estimation for chronic disease exacerbations
+- Forward projection horizon: configurable (default 4h, max 24h)
+
+---
+
+### 14. Convergence Pattern Detection
+
+`lib/clinical/convergence-detector.ts` detects when multiple vital parameters deteriorate in the same time window — a known predictor of rapid decompensation — even before any single vital crosses its threshold.
+
+**Pattern Types:**
+
+| Pattern | Description |
+|---|---|
+| `vital-convergence` | 3+ vitals deteriorating within 30 min |
+| `tachycardia-hypotension` | HR ↑ + BP ↓ together |
+| `hypoxia-tachypnea` | SpO₂ ↓ + RR ↑ together |
+| `altered-consciousness` | GCS drop ≥ 2 in < 1h |
+
+**Components:** `ConvergenceHeatmap`, `ConvergencePatternAlert`, `BaselineDeviationGauge`.
+
+---
+
+### 15. NEWS2 Early Warning Score
+
+Full National Early Warning Score 2 implementation (`lib/cdss/news2.ts`) — aggregates 7 physiological parameters into a composite score driving escalation decisions.
+
+**Scoring Parameters:** Respiration rate · SpO₂ · Supplemental O₂ · Temperature · Systolic BP · Heart rate · Consciousness (ACVPU)
+
+**Escalation Thresholds:**
+
+| NEWS2 Score | Response |
+|---|---|
+| 0–4 | Routine monitoring |
+| 5–6 or any single ≥ 3 | Urgent medical review |
+| ≥ 7 | Emergency — continuous monitoring, senior clinician |
+
+---
+
+### 16. Disease Classifiers
+
+Three standalone inference modules for common primary healthcare conditions:
+
+| Module | File | Input | Output |
+|---|---|---|---|
+| Glucose Classifier | `lib/glucose-classifier.ts` | Fasting/PP glucose + HbA1c | Normal / Prediabetes / DM Type 2 |
+| Hypertension Classifier | `lib/htn-classifier.ts` | Systolic + diastolic BP | Grade 1/2/3, Isolated Systolic |
+| Occult Shock Detector | `lib/occult-shock-detector.ts` | HR, BP, SpO₂, GCS, skin signs | Alert / No alert |
+
+Used by CDSS engine and Trajectory Analyzer as pre-filter inputs.
+
+---
+
+### 17. Critical Mind — Clinical Reasoning Interface
+
+Dedicated reasoning workspace (`/critical-mind`) for complex case analysis. Integrates CDSS differentials, trajectory data, and Audrey AI into a single structured clinical reasoning session.
+
+**Key Capabilities:**
+- Free-text clinical problem formulation with AI scaffolding
+- Pulls live trajectory data for the active patient
+- Side-by-side differential diagnosis from CDSS
+- Structured output: Problem → Assessment → Plan → Disposition
+
+---
+
+### 18. Medical Calculators
+
+18 validated clinical calculators accessible at `/calculator/[slug]` with input forms, computed results, and clinical interpretation.
+
+**Available Calculators:**
+
+| Slug | Calculator | Clinical Use |
+|---|---|---|
+| `bmi-calculator` | Body Mass Index | Nutritional screening |
+| `map-calculation` | Mean Arterial Pressure | Perfusion assessment |
+| `basal-metabolic-rate` | Basal Metabolic Rate | Caloric needs estimation |
+| `egfr-ckd-epi` | eGFR (CKD-EPI) | CKD staging |
+| `creatinine-clearance` | Cockcroft-Gault | Drug dose adjustment |
+| `due-date-lmp` | Estimated Due Date | Obstetric estimation |
+| `qsofa-score` | qSOFA | Sepsis triage |
+| `glasgow-coma-scale` | Glasgow Coma Scale | Neurological severity |
+| `curb-65` | CURB-65 | CAP severity (hospital vs home) |
+| `cha2ds2-vasc` | CHA₂DS₂-VASc | AF stroke risk, anticoagulation |
+| `hasbled` | HAS-BLED | Bleeding risk in anticoagulation |
+| `timi-ua-nstemi` | TIMI UA/NSTEMI | Chest pain stratification |
+| `wells-dvt` | Wells DVT | DVT pre-test probability |
+| `wells-pe` | Wells PE | PE pre-test probability |
+| `centor-score` | Centor Modified | Group A Strep, antibiotic decision |
+| `phq-9` | PHQ-9 | Depression screening |
+| `pediatric-weight` | Ideal Pediatric Weight | Pediatric dosing |
+| `corrected-sodium` | Corrected Sodium | Hyperglycemia sodium correction |
+
+---
+
+### 19. Consultation Request & EMR Transfer Flow
+
+Structured workflow for inbound consultation requests (via telemedicine or direct referral), managing accept/reject decisions and one-click transfer of consultation outcomes to the EMR bridge.
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/consult/pending` | List pending consultations |
+| `POST` | `/api/consult/accept` | Accept consultation |
+| `POST` | `/api/consult/reject` | Reject with reason |
+| `POST` | `/api/consult/transfer-to-emr` | Push outcome to EMR bridge |
+
+**State Machine:** `pending` → `accepted` / `rejected` → `transferred` / `closed`
+
+---
+
+### 20. Clinical Report Generator
+
+Generates structured clinical PDF reports from encounter and CDSS data, stored server-side and downloadable on demand.
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET/POST` | `/api/report/clinical` | List / create report |
+| `GET` | `/api/report/clinical/[id]/pdf` | Generate + download PDF |
+
+---
+
+### 21. AI Insights & Clinical Narrative Generator
+
+`lib/intelligence/ai-insights.ts` + `lib/narrative-generator.ts` — produces human-readable clinical summaries from structured encounter data. Used to populate SOAP note drafts after telemedicine sessions and generate shift handoff summaries.
+
+**Capabilities:**
+- SOAP note generation (Subjective / Objective / Assessment / Plan)
+- Shift handoff narrative from encounter queue
+- Trajectory summary paragraph for patient charts
+- Powered by Gemini 2.5 Flash with clinical prompt engineering
+
+---
+
+### 22. Anamnesis Extractor
+
+`lib/clinical/anamnesis-extractor.ts` — NLP pipeline that parses free-text clinical notes (Indonesian or English) into structured EMR fields: chief complaint, duration, associated symptoms, pertinent negatives, past medical history.
+
+**API:** `POST /api/clinical/anamnesis/extract`
+
+```json
+// Request
+{ "text": "Pasien datang dengan keluhan demam 3 hari, batuk berdahak, sesak napas..." }
+
+// Response
+{
+  "chiefComplaint": "demam",
+  "duration": "3 hari",
+  "associatedSymptoms": ["batuk berdahak", "sesak napas"],
+  "pertinentNegatives": []
+}
+```
+
+---
+
+### 23. Hub — Crew Directory & Profiles
+
+Staff directory at `/hub` with individual crew profiles, role cards, and lab result linkage. Supports multi-institution view for facility administrators.
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/hub/roster` | Full crew roster |
+| `GET` | `/api/hub/roster/[username]` | Individual crew profile |
+| `GET` | `/api/crew/[username]` | Crew access metadata |
+| `GET` | `/api/hub/lab/[username]` | Lab results for crew member |
+
+---
+
+### 24. Admin Console
+
+Full administrative back-office at `/admin` for managing users, institutions, and registration approvals, with overview metrics and dev-update publishing.
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/admin/overview` | Dashboard metrics |
+| `CRUD` | `/api/admin/users` | User management |
+| `POST` | `/api/admin/users/[u]/reset-password` | Password reset |
+| `POST` | `/api/admin/users/[u]/deactivate` | Deactivate account |
+| `CRUD` | `/api/admin/institutions` | Institution CRUD |
+| `POST` | `/api/admin/registrations/[id]/approve` | Approve pending registration |
+| `CRUD` | `/api/admin/dev-updates` | Publish dev updates to staff |
+| `CRUD` | `/api/admin/notam` | Manage NOTAMs |
+
+---
+
+### 25. NOTAM — Operational Notices System
+
+Aviation-inspired Notice-to-All-Members system for broadcasting operational updates (system maintenance, protocol changes, emergencies) to all authenticated staff in real time via Socket.IO.
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/notam/active` | Active NOTAMs for current staff |
+| `CRUD` | `/api/admin/notam` | Admin NOTAM management |
+
+**Real-time:** `notam:broadcast` Socket.IO event pushes new NOTAMs to all connected clients instantly.
+
+---
+
+### 26. Staff Geographic Map
+
+`components/map/StaffMap.tsx` — visualizes staff locations and active duty coverage geographically. Used by administrators to monitor field deployment of clinical staff across service areas.
+
+---
+
+### 27. Online Status Tracker
+
+`lib/server/online-today-tracker.ts` + `GET /api/doctors/online` — tracks and exposes real-time online presence of clinical staff. Used by telemedicine scheduler to show doctor availability and by ACARS for presence indicators.
+
+---
+
+### 28. Security Audit Log
+
+`lib/server/security-audit.ts` — append-only structured log of all security-relevant events: authentication attempts, CDSS access, admin actions. PHI-safe by design: user identifiers are SHA-256 hashed before storage.
+
+**Log Entry Schema:**
+
+```json
+{
+  "timestamp": "2026-04-15T13:21:00.000Z",
+  "endpoint": "/api/cdss/diagnose",
+  "action": "cdss_diagnose",
+  "result": "success",
+  "userId": "sha256:a3f2...",
+  "role": "doctor",
+  "ip": "10.0.0.1",
+  "metadata": { "suggestionCount": 3, "redFlagCount": 1 }
+}
+```
+
+> Patient identifiers, names, and clinical content are **never** written to the audit log.
+
+---
+
+### 29. Screening Audit Logbook
+
+`lib/audit/screening-audit-service.ts` + `lib/audit/screening-immutable-hash.ts` — immutable audit chain for clinical screening events. Each entry is hash-chained to the previous, making retroactive tampering detectable.
+
+**Routes:** `GET/POST /api/v1/logs/screening` · `GET /api/v1/logs/screening/[eventId]` · `POST /api/v1/logs/screening/[eventId]/ack`
+
+---
+
+### 30. Role-Based Access Control (RBAC)
+
+Role enforcement at API route and component level. Roles: `doctor` · `midwife` · `nurse` · `admin` · `patient`.
+
+| Resource | doctor | midwife | nurse | admin |
+|---|---|---|---|---|
+| CDSS diagnose | ✅ | ✅ | ❌ | ❌ |
+| EMR transfer | ✅ | ✅ | ✅ | ❌ |
+| Admin console | ❌ | ❌ | ❌ | ✅ |
+| Telemedicine host | ✅ | ✅ | ❌ | ❌ |
+| Screening logbook | ✅ | ✅ | ✅ | ✅ |
+
+Implemented in `lib/telemedicine/rbac.ts` and API route guards via `getCrewAccessConfigStatus()`.
+
+---
+
+### 31. Intelligence Dashboard (Socket.io Live Feeds)
+
+`/dashboard/intelligence` — real-time operational overview streaming live encounter queue, active alerts, vital sign updates, and CDSS activity via Socket.IO. Zero polling — push-only from server.
+
+**Socket Events:**
+
+| Event | Direction | Description |
+|---|---|---|
+| `intelligence:encounter-update` | Server → Client | New/updated encounter in queue |
+| `intelligence:alert` | Server → Client | New red alert or CDSS escalation |
+| `intelligence:metrics` | Server → Client | Operational KPI snapshot |
+| `intelligence:override` | Client → Server | Manual flag override by clinician |
+
+**API:** `GET /api/dashboard/intelligence/metrics` · `GET /api/dashboard/intelligence/observability`
+
+---
+
+### 32. Multi-Bridge Real-time Architecture
+
+Three independent Socket.IO namespaces bridge server-side events to the frontend without REST polling:
+
+| Bridge | File | Namespace | Feeds |
+|---|---|---|---|
+| Intelligence | `lib/intelligence/socket-bridge.ts` | `/intelligence` | Encounter queue, alerts, metrics |
+| EMR | `lib/emr/socket-bridge.ts` | `/emr` | Transfer progress, sync status |
+| Telemedicine | `lib/telemedicine/socket-bridge.ts` | `/telemedicine` | Call state, consultation events |
+| NOTAM | `lib/notam/socket-bridge.ts` | `/notam` | Broadcast operational notices |
+
+All bridges authenticate via the same HMAC session cookie before accepting connections (`lib/server/crew-access-auth.ts`).
+
+---
+
+### 33. Langfuse Artificial Intelligence Observability
+
+`lib/intelligence/langfuse.config.ts` — traces every Gemini inference call (CDSS, Audrey, narrative generation) through Langfuse for latency monitoring, token usage, prompt versioning, and quality scoring.
+
+**Captured per AI call:** model name · prompt version · input tokens · output tokens · latency ms · user role · session ID (hashed)
+
+> Patient data is never sent to Langfuse. Only structural metadata is traced.
+
+---
+
+### 34. Sentry Error Tracking (PHI-Scrubbed)
+
+`lib/intelligence/sentry.config.ts` — Sentry integration with a mandatory `beforeSend` hook that scrubs PHI from every event before transmission.
+
+**Scrubbed field patterns:** `patientId` · `patientName` · `fullName` · `medicalRecordNumber` · `mrn` · `nik`
+
+**Value scrubbing:** 16-digit NIK → `[REDACTED-NIK]` · MRN patterns → `[REDACTED-MRN]`
+
+**Disabled by policy:** `replaysSessionSampleRate = 0` · `replaysOnErrorSampleRate = 0` (no session recording)
+
+---
+
+### 35. Health Check API
+
+`GET /api/health` — structured health check endpoint used by Railway, uptime monitors, and CI/CD pipelines. Returns per-dependency status with HTTP 200 (healthy/degraded) or 503 (critical failure).
+
+**Response Schema:**
+
+```json
+{
+  "status": "ok | degraded | error",
+  "service": "intelligenceboard",
+  "timestamp": "2026-04-15T13:00:00.000Z",
+  "environment": "production",
+  "release": "abc1234",
+  "checks": {
+    "database": { "ok": true, "required": true },
+    "crew_access": { "ok": true, "required": true },
+    "cdss_ai": { "ok": true, "required": false },
+    "livekit": { "ok": false, "required": false },
+    "sentry": { "ok": true, "required": false }
+  }
+}
+```
+
+HTTP 503 only when a `required: true` check fails. Degraded state returns HTTP 200 with `"status": "degraded"`.
 
 ---
 

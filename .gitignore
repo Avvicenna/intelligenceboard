@@ -35,13 +35,14 @@ yarn-error.log*
 /runtime/
 *.ndjson
 emr-session.json
-crew-access-users.json
+rme-session.json
+crew-access-*.json
 
 # generated outputs
 /output/
 test-*.png
 
-# lockfiles (monorepo uses pnpm)
+# lockfiles — commit pnpm-lock.yaml, ignore others
 package-lock.json
 yarn.lock
 
@@ -59,7 +60,6 @@ yarn.lock
 # docs (local only, not for production)
 docs/document-extraction-engine.md
 docs/extraction-quality-scoring-system.md
-TECHNICAL.md
 .vercel
 
 # Semgrep local JSON output

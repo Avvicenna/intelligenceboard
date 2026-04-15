@@ -98,7 +98,7 @@ export async function GET() {
   return NextResponse.json(
     {
       status,
-      service: 'sentra-dashboard',
+      service: 'intelligenceboard',
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV ?? 'development',
       release:

@@ -1,4 +1,4 @@
-# PROGRESS.md — the-abyss (monorepo root)
+# PROGRESS.md — intelligenceBoard
 <!-- Agent MUST update at every session end or completed JET phase. -->
 
 ## Current Status
@@ -91,11 +91,11 @@
 - CDSS symptoms fix committed in this session (gejala_klinis field mismatch)
 - EMR_USERNAME still not set in .env.local (EMR Playwright bridge may fail on ePuskesmas login)
 - SENTRY_DSN + RESEND_API_KEY still empty (non-critical)
-- Git commit of entire sentra-dashboard still pending (Task 16)
+- Git commit of intelligenceboard rename/cleanup pending (awaiting GO from Boss)
 
 **Next steps:**
 
-1. Execute git commit: `git add apps/healthcare/sentra-dashboard/` with JET trailer
+1. Execute git commit from `Claudesy/intelligenceboard` repo root with JET trailer (awaiting GO)
 2. Set `EMR_USERNAME` in .env.local for full EMR bridge functionality
 3. Seed CDSS symptoms database if needed (currently reads from static JSON — working)
 

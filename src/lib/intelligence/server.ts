@@ -298,7 +298,7 @@ function mapTemporaryReferral(encounter: TemporaryEncounterRecord): Referral | u
 
   return {
     id: `${encounter.id}-referral`,
-    fromFacilityId: 'sentra-dashboard',
+    fromFacilityId: 'intelligenceboard',
     toFacilityId: encounter.rujukanTujuan ?? 'external-facility',
     urgency: 'routine',
     reason: 'Rujukan operasional dari encounter sementara',
@@ -314,7 +314,7 @@ function toClinicalEncounter(encounter: TemporaryEncounterRecord): Encounter {
     id: encounter.id,
     patientId: encounter.patientId,
     practitionerId: encounter.doctorId,
-    puskesmasId: 'sentra-dashboard',
+    puskesmasId: 'intelligenceboard',
     type: 'outpatient',
     status:
       encounter.status === 'COMPLETED'

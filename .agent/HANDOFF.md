@@ -1,4 +1,4 @@
-# HANDOFF.md — sentra-dashboard
+# HANDOFF.md — intelligenceBoard
 
 <!-- Overwrite at the start of each new session. -->
 
@@ -6,7 +6,7 @@
 
 ### Context
 
-Full health verification after backup restoration. Entire sentra-dashboard
+Full health verification after backup restoration. Entire intelligenceBoard
 directory was copy-pasted from backup after repo corruption. All verification
 phases completed.
 
@@ -21,8 +21,7 @@ phases completed.
 - **Database:** Neon PostgreSQL connected and healthy; 3 clinical reports from
   March 2026 intact
 - **Auth:** Login confirmed via browser; custom scrypt auth working
-- **Git state:** ALL CHANGES STILL UNCOMMITTED — sentra-dashboard/ is entirely
-  untracked (`??`) in monorepo git. Git commit is the immediate next step.
+- **Git state:** Project extracted to standalone repo Claudesy/intelligenceboard (private). All rename/cleanup changes pending commit to intelligenceboard repo.
 
 ### What Was Fixed This Session
 
@@ -40,7 +39,7 @@ phases completed.
 ### Outstanding Items
 
 1. **Git commit** — IMMEDIATE NEXT STEP:
-   `git add apps/healthcare/sentra-dashboard/` + commit with JET trailer
+   Commit all rename/cleanup changes to `Claudesy/intelligenceboard` repo with JET trailer
 2. **EMR_USERNAME** — not set in `.env.local` (EMR bridge to ePuskesmas will
    fail on login step). Set when available.
 3. **SENTRY_DSN + RESEND_API_KEY** — empty (non-critical, optional services)
@@ -50,8 +49,8 @@ phases completed.
 1. Read this HANDOFF.md + PROGRESS.md
 2. Execute git commit:
    ```bash
-   git add apps/healthcare/sentra-dashboard/
-   git commit -m "feat(sentra-dashboard): restore and verify full app health after backup restoration"
+   git add -A
+   git commit -m "chore(intelligenceboard): rename from sentra-dashboard, cleanup stale references"
    ```
    Include trailer:
    `Agent: Claude · Phase: Execution · Handoff: Health Verification 2026-04-13`
@@ -61,7 +60,7 @@ phases completed.
 ### Server State
 
 - Dev server runs on port 7000
-- Start: `pnpm --filter @the-abyss/sentra-dashboard dev`
+- Start: `pnpm dev` (run directly from intelligenceBoard root)
 - Or directly:
   `node_modules/.bin/tsx --env-file .env.local --conditions react-server server.ts`
 - Stop: `taskkill //F //IM node.exe` or find PID via

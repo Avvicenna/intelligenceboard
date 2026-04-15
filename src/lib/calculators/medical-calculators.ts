@@ -772,8 +772,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Umum',
     summary: 'Indeks massa tubuh untuk skrining status gizi dewasa.',
     clinicalUse: 'Skrining status gizi dan konseling faktor risiko metabolik.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\bmi-calculator\\page.tsx',
+    sourcePath: 'src/app/calculator/bmi-calculator/page.tsx',
     fields: [
       {
         id: 'weight',
@@ -798,8 +797,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Kardiovaskular',
     summary: 'Mean arterial pressure untuk perfusi organ.',
     clinicalUse: 'Membantu melihat kecukupan perfusi pada pasien akut.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\map-calculation\\page.tsx',
+    sourcePath: 'src/app/calculator/map-calculation/page.tsx',
     fields: [
       {
         id: 'systolic',
@@ -824,8 +822,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Umum',
     summary: 'Estimasi kebutuhan energi basal harian.',
     clinicalUse: 'Dasar edukasi nutrisi dan estimasi kebutuhan kalori awal.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\basal-metabolic-rate\\page.tsx',
+    sourcePath: 'src/app/calculator/basal-metabolic-rate/page.tsx',
     fields: [
       {
         id: 'sex',
@@ -866,8 +863,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Ginjal',
     summary: 'Estimasi laju filtrasi glomerulus tanpa ras.',
     clinicalUse: 'Skrining CKD dan interpretasi fungsi ginjal.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\egfr-ckd-epi\\page.tsx',
+    sourcePath: 'src/app/calculator/egfr-ckd-epi/page.tsx',
     fields: [
       {
         id: 'sex',
@@ -902,8 +898,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Ginjal',
     summary: 'Cockcroft-Gault untuk estimasi clearance kreatinin.',
     clinicalUse: 'Pertimbangan penyesuaian dosis obat berbasis fungsi ginjal.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\creatinine-clearance\\page.tsx',
+    sourcePath: 'src/app/calculator/creatinine-clearance/page.tsx',
     fields: [
       {
         id: 'sex',
@@ -945,8 +940,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Obstetri',
     summary: 'Perkiraan HPL dan usia kehamilan berdasar HPHT.',
     clinicalUse: 'Estimasi awal obstetri sebelum konfirmasi USG.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\due-date-lmp\\page.tsx',
+    sourcePath: 'src/app/calculator/due-date-lmp/page.tsx',
     fields: [{ id: 'lmp', label: 'HPHT', type: 'date' }],
     compute: calculateDueDate,
   },
@@ -956,8 +950,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Critical Care',
     summary: 'Skor cepat untuk menilai risiko luaran buruk pada dugaan sepsis.',
     clinicalUse: 'Triage awal pasien infeksi dengan risiko deteriorasi.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\qsofa-score\\page.tsx',
+    sourcePath: 'src/app/calculator/qsofa-score/page.tsx',
     fields: [
       {
         id: 'rr',
@@ -995,8 +988,7 @@ export const MEDICAL_CALCULATORS: CalculatorDefinition[] = [
     category: 'Neurologi',
     summary: 'Penilaian kesadaran berbasis respons mata, verbal, dan motorik.',
     clinicalUse: 'Menilai tingkat kesadaran dan severitas gangguan neurologis.',
-    sourcePath:
-      'D:\\Devops\\sentraartificial\\abyss-monorepo\\projects\\medlink\\apps\\medlink\\app\\medcal\\glasgow-coma-scale\\page.tsx',
+    sourcePath: 'src/app/calculator/glasgow-coma-scale/page.tsx',
     fields: [
       {
         id: 'eye',

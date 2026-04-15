@@ -1,4 +1,4 @@
-# LESSONS.md — the-abyss (monorepo root)
+# LESSONS.md — intelligenceBoard
 <!-- Append-only. Agent MUST read before starting any work. -->
 
 ---

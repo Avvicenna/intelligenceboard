@@ -1,4 +1,4 @@
-# CONTEXT.md — the-abyss (monorepo root)
+# CONTEXT.md — intelligenceBoard
 <!-- Static. Update only when stack or architecture changes. -->
 <!-- Last updated: 2026-04-10 -->
 

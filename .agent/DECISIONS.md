@@ -1,4 +1,4 @@
-# DECISIONS.md — the-abyss (monorepo root)
+# DECISIONS.md — intelligenceBoard
 <!-- Append-only. NEVER delete or edit existing entries. -->
 
 ---
