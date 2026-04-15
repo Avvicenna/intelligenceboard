@@ -68,6 +68,8 @@ A generic clinical dashboard treats every patient as a global baseline. A **loca
 - Protects PHI with HMAC sessions, audit logs, and end-to-end encryption
 - Calibrated against Indonesian epidemiological patterns: DBD, ISPA, TB, maternal risk, hypertension
 
+  <img src="public/pid.png" alt="IntelligenceBoard Clinical Cockpit" width="900" />
+
 **Target Users:**
 
 | Persona | Role | Pain Point Solved |
