@@ -1,617 +1,372 @@
-<div align="center">
+# DESIGN.md — Puskesmas Intelligence Dashboard
 
-# Healthcare Intelligence Dashboard
-
-**Clinical Information System for Primary Healthcare Facilities**
-
-<img src="public/pid.png" alt="Puskesmas PONED Balowerti Dashboard Preview" width="900" />
-
-[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Railway](https://img.shields.io/badge/Deployed%20on-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://railway.app/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](./LICENSE)
-
-_Architect & Built by [Claudesy](https://github.com/DocSynapse)_
-
-</div>
+> Deep-dive system design, UX guidelines, and architecture rationale.
+> Companion document to [README.md](./README.md).
 
 ---
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Telemedicine Module](#telemedicine-module)
-- [Technology Stack](#technology-stack)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Configuration](#environment-configuration)
-  - [Running the Development Server](#running-the-development-server)
-  - [Building for Production](#building-for-production)
-- [Available Scripts](#available-scripts)
-- [API Reference](#api-reference)
-- [Clinical Reports](#clinical-reports)
-- [Deployment](#deployment)
-- [Related Documentation](#related-documentation)
-- [Security](#security)
-- [License](#license)
+- [System Architecture Diagrams](#system-architecture-diagrams)
+- [Entity-Relationship Diagram](#entity-relationship-diagram)
+- [Critical User Flow Diagrams](#critical-user-flow-diagrams)
+- [UX & Visual Design Guidelines](#ux--visual-design-guidelines)
+- [Component Design System](#component-design-system)
+- [Primary Screen Wireframes](#primary-screen-wireframes)
+- [Tech Stack Rationale](#tech-stack-rationale)
+- [Security Architecture](#security-architecture)
 
 ---
 
-## Overview
+## System Architecture Diagrams
 
-**Puskesmas Intelligence Dashboard** is a full-stack internal operations portal
-purpose-built for **UPTD Puskesmas PONED Balowerti, Kota Kediri**. It
-consolidates clinical workflows, regulatory reporting, diagnostic intelligence,
-and real-time team communication into a single unified interface designed for
-medical staff operating in a primary healthcare (FKTP) environment.
+### Full System Context Diagram
 
-The platform is a product of **Sentra Healthcare Solutions**, founded by **dr.
-Ferdi Iskandar**, and operates under the guiding principle:
+```mermaid
+C4Context
+    title Puskesmas Intelligence Dashboard — System Context
 
-> _"Technology enables, but humans decide."_
+    Person(doctor, "Doctor / GP", "Diagnoses patients, uses CDSS, Audrey")
+    Person(midwife, "Midwife / Bidan", "ANC tracking, ICD coding")
+    Person(admin, "Clinical Admin", "Reports, scheduling, billing")
+    Person(patient, "Patient", "Joins telemedicine via link")
 
-The system is designed to reduce administrative overhead on clinicians, improve
-diagnostic accuracy at the point of care, and ensure compliance with national
-health reporting standards — all within the resource constraints typical of
-Indonesian primary healthcare facilities.
+    System(pid, "Puskesmas Intelligence Dashboard", "Clinical operations platform")
 
----
+    System_Ext(epusk, "ePuskesmas", "National EMR (Kemenkes)")
+    System_Ext(satu, "Satu Sehat", "MOH Health Data Platform")
+    System_Ext(bpjs, "P-Care BPJS", "National Insurance Platform")
+    System_Ext(gemini, "Google Gemini 2.5", "AI / LLM Service")
+    System_Ext(turn, "STUN/TURN Server", "WebRTC NAT traversal")
+    System_Ext(sms, "SMS/WhatsApp Gateway", "Patient notifications")
 
-## Key Features
+    Rel(doctor, pid, "Uses via browser")
+    Rel(midwife, pid, "Uses via browser")
+    Rel(admin, pid, "Uses via browser")
+    Rel(patient, pid, "Joins telemedicine via one-time URL")
 
-### User Profile Dashboard
-
-Home view displaying logged-in crew member information, quick-links to
-government health portals (Satu Sehat, SIPARWA, ePuskesmas, P-Care BPJS), and a
-clinical patient data overview with vitals, ICD-X coding, and treatment history.
-
-### EMR Auto-Fill Engine
-
-Playwright-driven RPA engine that transfers structured clinical data (anamnesis,
-diagnosis, prescriptions) into the ePuskesmas electronic medical record system.
-Communicates transfer progress to the frontend in real-time over Socket.IO,
-eliminating double-entry burden on clinical staff.
-
-### ICD-X Finder
-
-Multi-version ICD-10 lookup tool supporting the **2010**, **2016**, and **2019**
-catalogs with dynamic search, fuzzy matching, and legacy code translation.
-Enables fast and accurate diagnosis coding at the point of care.
-
-### LB1 Report Automation
-
-End-to-end pipeline that ingests exported visit data from ePuskesmas, normalizes
-and validates records, maps ICD-10 codes to the national LB1 template, and
-outputs the completed Excel report — along with a QC CSV of rejected records and
-a JSON summary file for audit trails.
-
-### Audrey — Clinical Consultation AI
-
-Voice-first clinical assistant powered by **Google Gemini Live** (native audio).
-Operates as a real-time conversational copilot for doctors during patient
-encounters, providing concise diagnostic insights calibrated for Puskesmas-level
-resources and constraints.
-
-### ACARS — Internal Chat
-
-Socket.IO-backed team messaging system with room-based conversations, typing
-indicators, and online presence tracking. Enables seamless communication between
-clinical and administrative staff within the facility.
-
-### CDSS — Clinical Decision Support
-
-API-driven diagnostic suggestion engine combining a local disease knowledge base
-(**159 diseases**, **45,030 real encounter records**) with Gemini-powered
-reasoning to provide ranked differential diagnoses, treatment plans, and
-referral criteria.
-
-### Crew Access Portal
-
-Authentication gate requiring crew credentials before any dashboard access.
-Session management uses **HMAC-signed cookies** with a 12-hour TTL. Credentials
-are sourced from environment variables, a runtime JSON file, or compiled
-defaults — in that priority order.
-
-### 📹 Telemedicine — Virtual Consultation
-
-Real-time video consultation module enabling remote patient-doctor interactions
-powered by **WebRTC** peer-to-peer connections, with **Socket.IO** signaling and
-a STUN/TURN relay fallback for restrictive networks. Supports HD video/audio
-calls, in-call text chat, file sharing (lab results, prescriptions), and session
-recording with consent. Each session is linked to the patient's EMR for
-automatic post-consultation note generation.
-
----
-
-## Technology Stack
-
-| Layer              | Technology                             |
-| ------------------ | -------------------------------------- |
-| Framework          | Next.js 16.1 (App Router)              |
-| Language           | TypeScript (strict mode)               |
-| Runtime            | Node.js >= 20.9.0                      |
-| UI Library         | React 19.2                             |
-| Font System        | Geist Sans / Geist Mono                |
-| Icons              | Lucide React                           |
-| Real-time          | Socket.IO (custom HTTP server)         |
-| AI / Voice         | Google Gemini 2.5 Flash (native audio) |
-| Browser Automation | Playwright                             |
-| Spreadsheet I/O    | SheetJS (xlsx)                         |
-| Deployment         | Railway (Nixpacks)                     |
-
----
-
-## Architecture
-
-The application uses a **custom Node.js HTTP server** (`server.ts`) that wraps
-the Next.js application and integrates Socket.IO for bidirectional real-time
-communication. This allows long-running background processes (EMR transfer, LB1
-automation) to stream live status updates to the frontend without polling.
-
-Key architectural decisions:
-
-- **App Router** (Next.js 16) for file-based routing with server and client
-  component separation
-- **Socket.IO rooms** for scoped real-time events per feature (EMR, chat, voice)
-- **HMAC cookie sessions** — stateless, tamper-proof, no database dependency for
-  auth
-- **RPA via Playwright** — headless browser automation for ePuskesmas
-  integration where no public API exists
-- **Tiered credential resolution** — env vars > runtime JSON > compiled
-  defaults, enabling zero-downtime credential rotation
-
-For a full architecture breakdown, see [ARCHITECTURE.md](./ARCHITECTURE.md).
-
----
-
-## Project Structure
-
+    Rel(pid, epusk, "RPA via Playwright")
+    Rel(pid, satu, "Redirect / future API")
+    Rel(pid, bpjs, "Redirect / future API")
+    Rel(pid, gemini, "REST API (Audrey, CDSS, SOAP)")
+    Rel(pid, turn, "WebRTC ICE")
+    Rel(pid, sms, "Notification dispatch")
 ```
-healthcare-dashboard/
-├── server.ts                  # Custom HTTP + Socket.IO server entry point
-├── next.config.ts             # Next.js configuration
-├── tsconfig.json              # TypeScript configuration (strict)
-├── railway.toml               # Railway deployment configuration
-├── package.json               # Dependencies and npm scripts
-│
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx         # Root layout (ThemeProvider + CrewAccessGate + AppNav)
-│   │   ├── page.tsx           # Home / User Profile dashboard
-│   │   ├── globals.css        # Global CSS with dark/light theme tokens
-│   │   ├── emr/               # EMR Auto-Fill interface
-│   │   ├── icdx/              # ICD-X lookup page
-│   │   ├── report/            # LB1 report generation page
-│   │   ├── voice/             # Audrey voice consultation page
-│   │   ├── acars/             # Internal chat page
-│   │   ├── chat/              # Chat contacts prototype
-│   │   ├── pasien/            # Patient records page
-│   │   └── api/
-│   │       ├── auth/          # Login, logout, session endpoints
-│   │       ├── cdss/          # Clinical decision support API
-│   │       ├── emr/           # EMR transfer run/status/history
-│   │       ├── icdx/          # ICD-10 lookup API
-│   │       ├── report/        # LB1 automation API (run, status, history, files)
-│   │       ├── voice/         # TTS, chat, token endpoints
-│   │       ├── news/          # Health news API
-│   │       └── perplexity/    # Perplexity AI integration
-│   │
-│   ├── components/
-│   │   ├── AppNav.tsx         # Sidebar navigation
-│   │   ├── CrewAccessGate.tsx # Authentication gate component
-│   │   ├── ThemeProvider.tsx  # Dark/light theme context
-│   │   └── ui/                # Shared UI components
-│   │
-│   └── lib/
-│       ├── crew-access.ts     # Shared auth types and constants
-│       ├── server/            # Server-only auth logic
-│       ├── lb1/               # LB1 report engine (config, transform, IO, template writer)
-│       ├── emr/               # EMR auto-fill engine (orchestrator, handlers, Playwright)
-│       └── icd/               # ICD-10 dynamic database
-│
-├── docs/
-│   └── plans/                 # Design documents and feature specs
-│
-└── runtime/                   # Runtime configuration files (not committed to VCS)
+
+### Component Diagram
+
+```mermaid
+graph TB
+    subgraph "Presentation Layer"
+        NavBar["AppNav (Sidebar)"]
+        AuthGate["CrewAccessGate"]
+        ThemeProv["ThemeProvider"]
+        Pages["Page Components\n(Dashboard, EMR, ICD, Report, Voice, Chat, Telemedicine)"]
+    end
+
+    subgraph "API Layer (Next.js Route Handlers)"
+        AuthAPI["Auth API\n/api/auth/*"]
+        EMRAPI["EMR API\n/api/emr/*"]
+        ICDAPI["ICD API\n/api/icdx/*"]
+        ReportAPI["Report API\n/api/report/*"]
+        VoiceAPI["Voice API\n/api/voice/*"]
+        CDSSAPI["CDSS API\n/api/cdss/*"]
+        TeleAPI["Telemedicine API\n/api/telemedicine/*"]
+    end
+
+    subgraph "Service Layer (lib/)"
+        AuthLib["crew-access.ts"]
+        EMRLib["EMR Engine\n(Playwright orchestrator)"]
+        LB1Lib["LB1 Engine\n(transform, validate, write)"]
+        ICDLib["ICD Database\n(in-memory + DB)"]
+        TeleLib["Telemedicine Lib\n(WebRTC, signaling, SOAP)"]
+    end
+
+    subgraph "Infrastructure"
+        SocketServer["Socket.IO Server\n(server.ts)"]
+        DB[("PostgreSQL")]
+        FileStore["File Storage\n(reports, recordings)"]
+        RuntimeFiles["Runtime Config\n(JSON, YAML)"]
+    end
+
+    Pages --> AuthAPI
+    Pages --> EMRAPI
+    Pages --> ICDAPI
+    Pages --> ReportAPI
+    Pages --> VoiceAPI
+    Pages --> CDSSAPI
+    Pages --> TeleAPI
+    Pages <-->|WebSocket| SocketServer
+
+    AuthAPI --> AuthLib
+    EMRAPI --> EMRLib
+    ReportAPI --> LB1Lib
+    ICDAPI --> ICDLib
+    TeleAPI --> TeleLib
+
+    EMRLib --> SocketServer
+    LB1Lib --> FileStore
+    TeleLib --> SocketServer
+
+    AuthLib --> DB
+    EMRLib --> DB
+    LB1Lib --> DB
+    ICDLib --> DB
+    TeleLib --> DB
+    AuthLib --> RuntimeFiles
 ```
 
 ---
 
-## Getting Started
+## Entity-Relationship Diagram
 
-### Prerequisites
+```mermaid
+erDiagram
+    STAFF {
+        uuid id PK
+        varchar username UK
+        varchar display_name
+        varchar role
+        varchar department
+        boolean is_active
+        timestamptz created_at
+    }
 
-Before you begin, ensure you have the following installed:
+    PATIENT {
+        uuid id PK
+        varchar mrn UK
+        varchar full_name
+        date date_of_birth
+        varchar sex
+        varchar nik
+        varchar phone
+        varchar address
+        uuid assigned_midwife_id FK
+        timestamptz created_at
+    }
 
-- **Node.js** `>= 20.9.0` — [Download](https://nodejs.org/)
-- **npm** `>= 10.x` (bundled with Node.js)
-- **Git** — [Download](https://git-scm.com/)
+    VISIT {
+        uuid id PK
+        uuid patient_id FK
+        uuid doctor_id FK
+        date visit_date
+        text chief_complaint
+        text anamnesis
+        jsonb vitals
+        text soap_note
+        varchar status
+        timestamptz created_at
+    }
 
-For the EMR Auto-Fill feature, Playwright requires system-level browser
-binaries. These are installed automatically as part of the setup steps below.
+    DIAGNOSIS {
+        uuid id PK
+        uuid visit_id FK
+        varchar icd_code
+        varchar icd_description
+        boolean is_primary
+    }
 
-### Installation
+    PRESCRIPTION {
+        uuid id PK
+        uuid visit_id FK
+        varchar drug_name
+        varchar dose
+        varchar frequency
+        integer duration_days
+        text instructions
+    }
 
-```bash
-# 1. Clone the repository
-git clone <repository-url>
-cd healthcare-dashboard
+    ANC_RECORD {
+        uuid id PK
+        uuid patient_id FK
+        uuid midwife_id FK
+        integer gestational_age_weeks
+        date visit_date
+        varchar gravida
+        varchar para
+        numeric weight_kg
+        varchar bp_systolic
+        varchar bp_diastolic
+        varchar fetal_heart_rate
+        varchar fetal_position
+        varchar fundal_height_cm
+        text notes
+        varchar risk_level
+    }
 
-# 2. Install dependencies
-npm install
+    EMR_TRANSFER_RUN {
+        uuid id PK
+        uuid visit_id FK
+        varchar initiated_by FK
+        varchar status
+        jsonb payload
+        text error_message
+        timestamptz started_at
+        timestamptz completed_at
+    }
 
-# 3. Install Playwright browser binaries (required for EMR Auto-Fill)
-npx playwright install chromium
-```
+    TELEMEDICINE_SESSION {
+        uuid id PK
+        varchar doctor_id FK
+        varchar patient_token UK
+        varchar patient_name
+        varchar status
+        timestamptz scheduled_at
+        timestamptz started_at
+        timestamptz ended_at
+        text recording_path
+        text soap_note
+        boolean emr_saved
+    }
 
-### Environment Configuration
+    CHAT_MESSAGE {
+        uuid id PK
+        uuid room_id FK
+        varchar sender FK
+        text content
+        timestamptz created_at
+    }
 
-Create a `.env.local` file in the project root. This file is **never committed
-to version control**.
-
-```env
-# ─── Server ───────────────────────────────────────────────────
-PORT=7000
-
-# ─── Authentication ───────────────────────────────────────────
-# Use a long, random string in production (e.g., openssl rand -hex 32)
-CREW_ACCESS_SECRET=<random-secret-for-production>
-
-# JSON array of crew user objects
-CREW_ACCESS_USERS_JSON='[{"username":"...","password":"...","displayName":"..."}]'
-
-# ─── AI Services ──────────────────────────────────────────────
-# Google Gemini — used by Audrey (voice) and CDSS
-GEMINI_API_KEY=<your-gemini-api-key>
-
-# ─── EMR / ePuskesmas RPA ─────────────────────────────────────
-# WARNING: Never commit these values to version control
-EMR_BASE_URL=<epuskesmas-instance-url>
-EMR_LOGIN_URL=<epuskesmas-login-url>
-EMR_USERNAME=<epuskesmas-username>
-EMR_PASSWORD=<epuskesmas-password>
-EMR_HEADLESS=true
-EMR_SESSION_STORAGE_PATH=runtime/emr-session.json
-
-# ─── LB1 Report Engine ────────────────────────────────────────
-# LB1 live export memakai kredensial EMR yang sama.
-LB1_CONFIG_PATH=runtime/lb1-config.yaml
-LB1_DATA_SOURCE_DIR=runtime/lb1-data
-LB1_OUTPUT_DIR=runtime/lb1-output
-LB1_HISTORY_FILE=runtime/lb1-run-history.jsonl
-LB1_TEMPLATE_PATH=runtime/Laporan SP3 LB1.xlsx
-LB1_MAPPING_PATH=runtime/diagnosis_mapping.csv
-```
-
-> **Configuration Note:** runtime code now reads EMR and LB1 settings from
-> centralized server helpers, so `.env.example`, `README`, and route behavior
-> use the same env contract.
-
-> **Security Note:** `EMR_PASSWORD` and `CREW_ACCESS_SECRET` are sensitive
-> credentials. Rotate them regularly and never expose them in logs or
-> client-side code.
-
-### Running the Development Server
-
-```bash
-# Start the custom server with Socket.IO support
-npm run dev
-```
-
-The application will be available at
-**[http://localhost:7000](http://localhost:7000)**.
-
-To run Next.js in standard dev mode (without the custom Socket.IO server):
-
-```bash
-npm run dev:next
-```
-
-### Building for Production
-
-```bash
-# Compile the production bundle
-npm run build
-
-# Start the production server
-npm run start
+    STAFF ||--o{ VISIT : "conducts"
+    STAFF ||--o{ ANC_RECORD : "records"
+    STAFF ||--o{ TELEMEDICINE_SESSION : "hosts"
+    PATIENT ||--o{ VISIT : "has"
+    PATIENT ||--o{ ANC_RECORD : "has"
+    VISIT ||--o{ DIAGNOSIS : "has"
+    VISIT ||--o{ PRESCRIPTION : "has"
+    VISIT ||--o| EMR_TRANSFER_RUN : "triggers"
 ```
 
 ---
 
-## Available Scripts
+## Critical User Flow Diagrams
 
-| Script                   | Description                                                               |
-| ------------------------ | ------------------------------------------------------------------------- |
-| `pnpm dev`               | Start custom server with Socket.IO support via `tsx`                      |
-| `pnpm dev:clean`         | Clear dev lock file and start the custom server                           |
-| `pnpm dev:next`          | Start Next.js dev server without the custom server                        |
-| `pnpm build`             | Compile the production bundle                                             |
-| `pnpm start`             | Start the production server via the custom server                         |
-| `pnpm docs:dev`          | Local Mintlify preview for `mintlify-docs/` (default port **3004**)       |
-| `pnpm docs:api`          | Regenerate `mintlify-docs/openapi.json` from `src/app/api` route handlers |
-| `pnpm docs:check`        | Run `mintlify validate` and `mintlify broken-links` on the Mintlify site  |
-| `pnpm docs:validate`     | Validate Mintlify build only                                              |
-| `pnpm docs:broken-links` | Check internal links in Mintlify MDX only                                 |
+### Patient Registration & First ANC Visit
 
-From the **monorepo root**, target this package with:
+```mermaid
+sequenceDiagram
+    actor Midwife
+    participant Dashboard
+    participant API as /api/pasien
+    participant DB as PostgreSQL
+    participant EMR as ePuskesmas
 
-`pnpm --filter @the-abyss/sentra-dashboard run <script>` (for example
-`docs:dev`, `docs:api`, `docs:check`).
+    Midwife->>Dashboard: Navigate to Pasien → New Patient
+    Midwife->>Dashboard: Fill: Name, NIK, DOB, Phone, Address
+    Dashboard->>API: POST /api/pasien {patientData}
+    API->>DB: INSERT INTO patient
+    DB-->>API: {patientId, mrn}
+    API-->>Dashboard: 201 Created {patient}
+    Dashboard-->>Midwife: Show patient profile
 
----
+    Midwife->>Dashboard: Add ANC Record
+    Midwife->>Dashboard: Fill: GA weeks, BP, weight, FHR, fundal height
+    Dashboard->>API: POST /api/anc {ancData, patientId}
+    API->>DB: INSERT INTO anc_record
+    API->>DB: Calculate risk level (rule engine)
+    DB-->>API: {ancId, riskLevel}
+    API-->>Dashboard: 201 Created
+    Dashboard-->>Midwife: Show ANC record + risk badge
 
-## Telemedicine Module
-
-The Telemedicine module provides a complete virtual consultation workflow
-integrated directly into the clinical dashboard. It enables Puskesmas staff to
-conduct secure video consultations with patients — reducing the need for
-in-person visits for follow-ups, medication reviews, and remote triage.
-
-### Key Capabilities
-
-| Capability          | Details                                         |
-| ------------------- | ----------------------------------------------- |
-| Video Engine        | WebRTC (peer-to-peer, browser-native)           |
-| Signaling           | Socket.IO rooms per consultation session        |
-| Network Fallback    | STUN/TURN relay for restricted NAT environments |
-| Audio/Video Quality | Adaptive bitrate, HD (720p default)             |
-| In-call Chat        | Real-time text with file attachment support     |
-| Session Recording   | Opt-in, consent-gated, stored server-side       |
-| EMR Integration     | Auto-generates SOAP note draft post-session     |
-| Scheduling          | Built-in appointment slot management            |
-| Queue Management    | Virtual waiting room with estimated wait time   |
-| Patient Link        | One-time URL sent via SMS/WhatsApp              |
-
-### Workflow
-
-```
-Doctor creates slot → Patient receives link
-        ↓
-Patient joins waiting room (no login required)
-        ↓
-Doctor admits patient → WebRTC session established
-        ↓
-Consultation (video + chat + file sharing)
-        ↓
-Doctor closes session → Draft SOAP note generated
-        ↓
-Doctor reviews & saves to EMR → ICD-X coded
+    alt High-risk flagged
+        Dashboard-->>Midwife: ⚠️ High-risk alert banner
+        Dashboard-->>Midwife: Recommend specialist referral
+    end
 ```
 
-### Project Structure (Telemedicine)
+### Emergency Alert Flow (Future Feature)
 
-```
-src/
-├── app/
-│   ├── telemedicine/
-│   │   ├── page.tsx           # Doctor's consultation dashboard
-│   │   ├── room/[id]/
-│   │   │   └── page.tsx       # Active consultation room (WebRTC)
-│   │   ├── schedule/
-│   │   │   └── page.tsx       # Appointment scheduling
-│   │   └── waiting/[token]/
-│   │       └── page.tsx       # Patient waiting room (public)
-│   └── api/
-│       └── telemedicine/
-│           ├── sessions/      # Create, list, close sessions
-│           ├── signal/        # WebRTC signaling (offer/answer/ICE)
-│           ├── recording/     # Start, stop, fetch recordings
-│           └── schedule/      # Appointment slot management
-│
-└── lib/
-    └── telemedicine/
-        ├── webrtc.ts          # WebRTC peer connection helpers
-        ├── signaling.ts       # Socket.IO signaling server logic
-        ├── recorder.ts        # MediaStream recording & upload
-        └── soap-generator.ts  # Gemini-powered SOAP note draft
+```mermaid
+flowchart TD
+    A[Midwife identifies emergency\ne.g., PPH, eclampsia] --> B[Press Emergency Alert button]
+    B --> C[Dashboard sends alert via Socket.IO]
+    C --> D[All online staff receive push notification]
+    C --> E[SMS sent to doctor on-call]
+    D --> F[Doctor acknowledges alert]
+    F --> G[Incident room created in ACARS]
+    G --> H[Team coordinates via ACARS chat]
+    H --> I{Needs referral?}
+    I -- Yes --> J[Initiate referral workflow\nSend to RS PONED]
+    I -- No --> K[Manage at Puskesmas\nDocument in EMR]
 ```
 
-### API Endpoints (Telemedicine)
+---
 
-| Method  | Endpoint                            | Description                       |
-| ------- | ----------------------------------- | --------------------------------- |
-| `POST`  | `/api/telemedicine/sessions`        | Create a new consultation session |
-| `GET`   | `/api/telemedicine/sessions`        | List all sessions (paginated)     |
-| `GET`   | `/api/telemedicine/sessions/:id`    | Get session details               |
-| `PATCH` | `/api/telemedicine/sessions/:id`    | Update session status             |
-| `POST`  | `/api/telemedicine/signal`          | WebRTC signaling relay            |
-| `POST`  | `/api/telemedicine/recording/start` | Begin session recording           |
-| `POST`  | `/api/telemedicine/recording/stop`  | End recording & save              |
-| `GET`   | `/api/telemedicine/schedule`        | List available appointment slots  |
-| `POST`  | `/api/telemedicine/schedule`        | Create appointment slot           |
+## UX & Visual Design Guidelines
 
-### Environment Variables (Telemedicine)
+### Design Principles
 
-Add the following to your `.env.local`:
+1. **Clinical-first clarity** — Information hierarchy prioritizes patient safety data (alerts, vitals, risk flags) over administrative data
+2. **Mobile-first, desktop-optimized** — Midwives and nurses frequently use tablets and mobile phones at the bedside
+3. **Offline resilience** (future) — Core read functions should work offline with service worker caching
+4. **Accessibility (WCAG 2.1 AA)** — Minimum contrast ratio 4.5:1 for body text; 3:1 for UI components; keyboard-navigable; screen-reader compatible
 
-```env
-# ─── Telemedicine ─────────────────────────────────────────────
-# WebRTC STUN/TURN server (use a public STUN for dev)
-TURN_SERVER_URL=turn:<your-turn-server>:3478
-TURN_SERVER_USERNAME=<turn-username>
-TURN_SERVER_CREDENTIAL=<turn-password>
+### Color Palette
 
-# Recording storage (local path or S3-compatible bucket)
-RECORDING_STORAGE_PATH=<absolute-path-or-s3-bucket>
+| Role | Light Mode | Dark Mode | Usage |
+|---|---|---|---|
+| Primary | `#0066CC` | `#4DA3FF` | CTAs, links, active states |
+| Success | `#16A34A` | `#4ADE80` | Completed transfers, normal vitals |
+| Warning | `#D97706` | `#FCD34D` | Medium risk, pending actions |
+| Danger | `#DC2626` | `#F87171` | High risk, errors, emergencies |
+| Neutral 900 | `#111827` | `#F9FAFB` | Primary text |
+| Neutral 50 | `#F9FAFB` | `#111827` | Page background |
+| Surface | `#FFFFFF` | `#1F2937` | Card backgrounds |
 
-# Patient join link base URL
-TELEMEDICINE_PUBLIC_BASE_URL=https://<your-domain>/telemedicine/waiting
+> **Note:** These are standard Tailwind CSS color tokens. The dashboard supports both light and dark themes via `ThemeProvider.tsx` and CSS custom properties in `globals.css`.
+
+### Typography
+
+| Scale | Font | Size | Weight | Use |
+|---|---|---|---|---|
+| Display | Geist Sans | 32px | 700 | Page titles |
+| Heading 1 | Geist Sans | 24px | 600 | Section headers |
+| Heading 2 | Geist Sans | 18px | 600 | Card headers |
+| Body | Geist Sans | 14px | 400 | Body text, table content |
+| Caption | Geist Sans | 12px | 400 | Metadata, timestamps |
+| Mono | Geist Mono | 13px | 400 | Code, ICD codes, MRN values |
+
+### Spacing System
+
+Uses 4px base grid. Key spacing tokens: `4, 8, 12, 16, 24, 32, 48, 64px`
+
+### Design Library Recommendation
+
+**Recommendation: Tailwind CSS + shadcn/ui**
+
+| Library | Pros | Cons |
+|---|---|---|
+| **Tailwind CSS + shadcn/ui** ✅ | Utility-first, highly customizable, accessible by default, tree-shakeable | Learning curve for non-Tailwind devs |
+| Material UI (MUI) | Rich component library, well-documented | Heavy bundle, opinionated styling |
+| Fluent UI (Microsoft) | Accessible, enterprise-grade | React-only, Microsoft aesthetic |
+| Ant Design | Large component set, good for admin UIs | Very opinionated, large bundle |
+
+**Rationale:** `shadcn/ui` builds on Radix UI primitives (fully accessible) with Tailwind styling — giving full control without sacrificing accessibility compliance. It aligns with the existing Geist font system and the project's TypeScript-first approach.
+
+---
+
+## Component Design System
+
+### Key Components
+
+#### `<PatientCard />`
+Displays a compact patient summary: MRN, name, age, risk badge, last visit date.
+
+```tsx
+<PatientCard
+  mrn="PKM-2026-00123"
+  name="Ny. Sari Dewi"
+  age={28}
+  gestationalAge="36 weeks"
+  riskLevel="high"       // 'low' | 'medium' | 'high'
+  lastVisit="2026-04-14"
+/>
 ```
 
-> **Privacy Note:** Session recordings contain sensitive PHI (Protected Health
-> Information). Ensure storage is encrypted at rest and access is restricted to
-> authorized clinical staff only.
+#### `<VitalsBadge />`
+Compact vitals display with color-coded normal/abnormal indicators.
 
----
-
-## Clinical Reports
-
-Clinical report module provides structured clinical documentation with built-in
-validation, audit trail, and PDF rendering capability.
-
-**Endpoints:**
-
-- `GET /api/report/clinical` — List reports with optional dokter filter
-- `POST /api/report/clinical` — Create new clinical report (with Zod validation)
-- `DELETE /api/report/clinical?id=xxx` — Delete report
-
-**Key Features:**
-
-- Full Zod schema validation on all inputs
-- PHI-safe audit trail (no patient name/MRN in logs)
-- Dual storage (PostgreSQL + file fallback)
-- HTML-to-PDF rendering with professional template
-
-## API Reference
-
-All API routes are prefixed with `/api`. Authentication is enforced on all
-routes via HMAC-signed session cookies.
-
-### Authentication
-
-| Method | Endpoint            | Description                        |
-| ------ | ------------------- | ---------------------------------- |
-| `POST` | `/api/auth/login`   | Authenticate with crew credentials |
-| `POST` | `/api/auth/logout`  | End the current session            |
-| `GET`  | `/api/auth/session` | Validate the current session       |
-
-### LB1 Report Automation
-
-| Method | Endpoint                           | Description                              |
-| ------ | ---------------------------------- | ---------------------------------------- |
-| `GET`  | `/api/report/automation/status`    | Current automation engine status         |
-| `POST` | `/api/report/automation/run`       | Execute the LB1 pipeline                 |
-| `GET`  | `/api/report/automation/history`   | Pipeline execution history (`?limit=30`) |
-| `GET`  | `/api/report/automation/preflight` | Pre-run validation checks                |
-| `GET`  | `/api/report/files`                | List generated output files              |
-| `GET`  | `/api/report/files/download`       | Download a generated file                |
-
-### EMR Transfer
-
-| Method | Endpoint                    | Description                       |
-| ------ | --------------------------- | --------------------------------- |
-| `POST` | `/api/emr/transfer/run`     | Execute the EMR auto-fill process |
-| `GET`  | `/api/emr/transfer/status`  | Transfer engine status            |
-| `GET`  | `/api/emr/transfer/history` | Transfer execution history        |
-
-### Clinical
-
-| Method | Endpoint             | Description                               |
-| ------ | -------------------- | ----------------------------------------- |
-| `POST` | `/api/cdss/diagnose` | Run the CDSS diagnostic suggestion engine |
-| `GET`  | `/api/icdx/lookup`   | ICD-10 code search (`?q=&version=`)       |
-
-### Voice
-
-| Method | Endpoint           | Description                    |
-| ------ | ------------------ | ------------------------------ |
-| `POST` | `/api/voice/chat`  | Send a message to Audrey       |
-| `POST` | `/api/voice/tts`   | Text-to-speech synthesis       |
-| `GET`  | `/api/voice/token` | Retrieve a voice session token |
-
----
-
-## Deployment
-
-The application is configured for deployment on
-**[Railway](https://railway.app/)** using **Nixpacks** for zero-config builds.
-
-```toml
-# railway.toml
-[build]
-builder = "nixpacks"
-buildCommand = "npm run build"
-
-[deploy]
-startCommand = "npm run start"
-restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 3
-```
-
-**Deployment steps:**
-
-1. Push the repository to GitHub.
-2. Connect the repository to a new Railway project.
-3. Set all required environment variables in the Railway dashboard under
-   **Variables**.
-4. Railway will automatically build and deploy on every push to `master`.
-
-> **Note:** The `runtime/` directory and `.env.local` file are excluded from
-> deployments. Ensure all secrets are configured as Railway environment
-> variables.
-
----
-
-## Related Documentation
-
-| Document                                             | Description                                                                                                                                       |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [docs/README.md](./docs/README.md)                   | Index of technical docs in `docs/`                                                                                                                |
-| [mintlify-docs/](./mintlify-docs/)                   | Public documentation site (Mintlify: `docs.json`, MDX, OpenAPI); deploy path for Mintlify Cloud: `apps/healthcare/sentra-dashboard/mintlify-docs` |
-| [ARCHITECTURE.md](./ARCHITECTURE.md)                 | System architecture and component design                                                                                                          |
-| [CONTRIBUTING.md](./CONTRIBUTING.md)                 | Development workflow and code conventions                                                                                                         |
-| [CHANGELOG.md](./CHANGELOG.md)                       | Version history and release notes                                                                                                                 |
-| [SECURITY.md](./SECURITY.md)                         | Security policy and vulnerability reporting                                                                                                       |
-| [SUPPORT.md](./SUPPORT.md)                           | How to get help and where to report issues                                                                                                        |
-| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)           | Community code of conduct                                                                                                                         |
-| [DISCLAIMER.md](./DISCLAIMER.md)                     | Clinical and liability disclaimer                                                                                                                 |
-| [DATA_PRIVACY.md](./DATA_PRIVACY.md)                 | High-level privacy commitments (not legal advice)                                                                                                 |
-| [MODEL_CARD.md](./MODEL_CARD.md)                     | AI model integration summary                                                                                                                      |
-| [DATASET_CARD.md](./DATASET_CARD.md)                 | Internal dataset stewardship notes (CDSS)                                                                                                         |
-| [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)           | Deployment and operations notes                                                                                                                   |
-| [docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) | Common failures and fixes                                                                                                                         |
-| [CLAUDE.md](./CLAUDE.md)                             | AI assistant conventions and guidelines                                                                                                           |
-
----
-
-## Security
-
-Security issues and vulnerability reports are handled under the policy detailed
-in [SECURITY.md](./SECURITY.md).
-
-Key security properties of this system:
-
-- **HMAC-signed session cookies** — sessions cannot be forged or tampered with
-  client-side
-- **Credential isolation** — all secrets are resolved from environment variables
-  at runtime, never hardcoded
-- **No public API surface** — the application is designed for internal network
-  deployment only
-- **Playwright sandboxing** — browser automation runs in an isolated context
-  separate from the main application process
-
-To report a vulnerability, please follow the responsible disclosure process
-described in [SECURITY.md](./SECURITY.md). Do not open public GitHub Issues for
-security vulnerabilities.
-
----
-
-## License
-
-This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE).
-
-The MIT license applies to the software and documentation in this repository.
-**Clinical use** remains subject to institutional policy, applicable law, and
-the clinical disclaimers in [`LICENSE`](./LICENSE),
-[`DISCLAIMER.md`](./DISCLAIMER.md), and [`DATA_PRIVACY.md`](./DATA_PRIVACY.md).
-
-Copyright © 2026 **Sentra Artificial Intelligence** — Dr. Ferdi Iskandar (see
-[`LICENSE`](./LICENSE) for the full text).
-
----
-
-<div align="center">
-
-Built with care for frontline healthcare workers in Indonesia.
-
-_Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra
-Healthcare Solutions_
-
-</div>
+```tsx
+<VitalsBadge
+  bp={{ systolic: 150, diastolic: 100 }}   // 🔴 Hypertensive
+  heartRate={98
