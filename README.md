@@ -5,7 +5,6 @@
 **Indonesia Calibrated Clinical Intelligence Platform**
 
 </div>
-
 ---
 
 ## Overview
@@ -27,7 +26,7 @@
 
 <div align="center">
 
-<img src="public/intelligenceboard.png" alt="IntelligenceBoard" width="900" />
+<img src="public/pid.png" alt="IntelligenceBoard" width="900" />
 
 [![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
 [![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
