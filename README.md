@@ -1038,14 +1038,14 @@ flowchart TB
         sidebar["SIDEBAR<br/>-  Dashboard<br/>-  EMR<br/>-  ICD-X<br/>-  Reports<br/>-  Audrey<br/>-  ACARS<br/>-  CDSS<br/>-  Pasien<br/>-  Teleconsult"]
         
         subgraph main_content["MAIN CONTENT"]
-            profile["👤 dr. Ferdi Iskandar<br/>[Doctor]<br/>Dept: Umum<br/>Last login: 07:00"]
+            profile["👤 dr. Claudesy<br/>[Doctor]<br/>Dept: Umum<br/>Last login: 07:00"]
             
             portals["PORTAL QUICK-LINKS<br/>[Satu Sehat] [SIPARWA]<br/>[ePuskesmas] [BPJS]"]
             
             patients["TODAY'S PATIENTS<br/>┌─────────────────┐<br/>│ MRN │ Name │ Risk │ Dx │<br/>├─────────────────┤<br/>│ PKM-001 │ Ny. Sari D. │ 🔴 │ Z34.2 │<br/>│ PKM-002 │ Tn. Budi W. │ 🟢 │ R51 │<br/>└─────────────────┘"]
         end
         
-        header["[Logo] Puskesmas Intelligence │ dr. Ferdi [⚙]"]
+        header["[Logo] Puskesmas Intelligence │ dr. Claudesy [⚙]"]
     end
     
     header --> sidebar
@@ -1108,3 +1108,44 @@ flowchart TD
 > - `docs/assets/dashboard-wireframe.png` — Dashboard screen mockup
 > - `docs/assets/anc-form-wireframe.png` — ANC record form mockup
 > - `docs/assets/telemedicine-wireframe.png` — Waiting room mockup
+--
+
+## License
+
+Copyright 2026 **Claudesy** (Dr. Claudesy)
+
+Licensed under the **Apache License, Version 2.0** (the "License"); you may not
+use files in this repository except in compliance with the License.
+
+You may obtain a copy of the License at:
+
+> http://www.apache.org/licenses/LICENSE-2.0
+
+### What This Means
+
+| Permission | Requirement |
+|------------|-------------|
+| ✅ Commercial use | Preserve copyright notice |
+| ✅ Modify freely | State all changes made |
+| ✅ Distribute copies | Include the full Apache 2.0 license text |
+| ✅ Sublicense | Distribute under the same Apache 2.0 terms |
+| ✅ Private use | No requirement to disclose source |
+| ✅ Patent use | Contributors grant explicit patent rights |
+
+**Patent Protection:** Apache 2.0 includes an explicit patent grant from every
+contributor. If any entity initiates patent litigation claiming that a
+contribution in this repository constitutes patent infringement, that entity's
+patent license is automatically terminated.
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an **"AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND**, either express or implied. See the [LICENSE](./LICENSE)
+file for the full text governing permissions and limitations.
+
+---
+
+**Version:** 0.0.1  
+**Last Updated:** 2026-04-15
+
+---
+
