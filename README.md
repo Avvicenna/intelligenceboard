@@ -1030,67 +1030,59 @@ Real-time Socket.IO-driven progress bar for EMR transfers. Three states: `idle`,
 ## Primary Screen Wireframes
 
 ### Dashboard (Home)
-┌─────────────────────────────────────────────────────────┐
-│ [Logo] Puskesmas Intelligence [User] dr. Ferdi [⚙] │
-├──────────┬──────────────────────────────────────────────┤
-│ SIDEBAR │ PROFILE CARD │
-│ │ ┌──────────────────────────────────────┐ │
-│ Dashboard│ │ 👤 dr. Claudesy [Doctor] │ │
-│ EMR │ │ Dept: Umum | Last login: 07:00 │ │
-│ ICD-X │ └──────────────────────────────────────┘ │
-│ Reports │ │
-│ Audrey │ PORTAL QUICK-LINKS │
-│ ACARS │ [Satu Sehat] [SIPARWA] [ePuskesmas] [BPJS] │
-│ CDSS │ │
-│ Pasien │ TODAY'S PATIENTS │
-│ Teleconsult ┌─────────────────────────────────────┐ │
-│ │ │ MRN Name Risk Last Dx │ │
-│ │ │ PKM-001 Ny. Sari D. 🔴 Z34.2 │ │
-│ │ │ PKM-002 Tn. Budi W. 🟢 R51 │ │
-│ │ └─────────────────────────────────────┘ │
-└──────────┴──────────────────────────────────────────────┘
 
-text
+```mermaid
+flowchart TB
+    subgraph dashboard["Dashboard Home"]
+        direction LR
+        sidebar["SIDEBAR<br/>-  Dashboard<br/>-  EMR<br/>-  ICD-X<br/>-  Reports<br/>-  Audrey<br/>-  ACARS<br/>-  CDSS<br/>-  Pasien<br/>-  Teleconsult"]
+        
+        subgraph main_content["MAIN CONTENT"]
+            profile["👤 dr. Ferdi Iskandar<br/>[Doctor]<br/>Dept: Umum<br/>Last login: 07:00"]
+            
+            portals["PORTAL QUICK-LINKS<br/>[Satu Sehat] [SIPARWA]<br/>[ePuskesmas] [BPJS]"]
+            
+            patients["TODAY'S PATIENTS<br/>┌─────────────────┐<br/>│ MRN │ Name │ Risk │ Dx │<br/>├─────────────────┤<br/>│ PKM-001 │ Ny. Sari D. │ 🔴 │ Z34.2 │<br/>│ PKM-002 │ Tn. Budi W. │ 🟢 │ R51 │<br/>└─────────────────┘"]
+        end
+        
+        header["[Logo] Puskesmas Intelligence │ dr. Ferdi [⚙]"]
+    end
+    
+    header --> sidebar
+    header --> main_content
+    profile --> portals
+    portals --> patients
+```
 
 ### ANC Record Form
-┌─────────────────────────────────────────────────────────┐
-│ Patient: Ny. Sari Dewi | MRN: PKM-2026-00123 │
-│ ───────────────────────────────────────────────────── │
-│ Gestational Age (weeks): [____] Visit Date: [date] │
-│ │
-│ Blood Pressure: Systolic [___] / Diastolic [___] mmHg │
-│ Weight: [___] kg Fundal Height: [___] cm │
-│ Fetal Heart Rate: [___] bpm Position: [dropdown] │
-│ │
-│ Notes: [textarea] │
-│ │
-│ Risk Assessment: ● Auto-calculated ▼ │
-│ │
-│ [Cancel] [Save ANC Record →] │
-└─────────────────────────────────────────────────────────┘
 
-text
+```mermaid
+flowchart TD
+    form["ANC Record Form<br/>┌──────────────────────────────────────┐<br/>│ Patient: Ny. Sari Dewi │ MRN: PKM-001 │<br/>├──────────────────────────────────────┤<br/>│ Gestational Age: [36wks] Date: [today] │<br/>│ BP:  /  mmHg │ Weight: [70kg] │<br/>│ FHR:  bpm │ Fundal: [34cm] │<br/>│ Risk: ● Auto-calculated [HIGH] ▼ │<br/>│ Notes: [textarea] │<br/>└──────────────────────────────────────┘"]
+    
+    buttons["[Cancel] │ [Save ANC Record →]"]
+    
+    form --> buttons
+```
 
-### Telemedicine Waiting Room (Patient View)
-┌─────────────────────────────────────────────────────────┐
-│ │
-│ 🏥 Puskesmas PONED Site │
-│ │
-│ Your doctor will admit you shortly. │
-│ │
-│ ⏱ Estimated wait: ~5 minutes │
-│ │
-│ 📹 Camera: ● ON 🎤 Microphone: ● ON │
-│ │
-│ ┌─────────────────────────────────┐ │
-│ │ [Your camera preview here] │ │
-│ └─────────────────────────────────┘ │
-│ │
-│ [Turn off camera] [Mute mic] │
-│ │
-└─────────────────────────────────────────────────────────┘
+### Telemedicine Waiting Room (Patient)
 
-text
+```mermaid
+flowchart TD
+    subgraph waiting_room["PATIENT WAITING ROOM"]
+        title["Puskesmas PONED Site<br/>Your doctor will admit you shortly."]
+        
+        status["⏱ Est. wait: ~5 min<br/>📹 Camera: ● ON<br/>🎤 Mic: ● ON"]
+        
+        camera["┌──────────────────────┐<br/>│ [Camera Preview]     │<br/>└──────────────────────┘"]
+        
+        controls["[Turn off camera] [Mute mic]"]
+    end
+    
+    title --> status
+    status --> camera
+    camera --> controls
+```
 
 ---
 
