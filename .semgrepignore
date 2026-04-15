@@ -1,0 +1,4 @@
+# Dev-only OpenAPI generator; directory walk is rooted at API_ROOT (see scripts/update-api-docs.mjs)
+scripts/update-api-docs.mjs
+# Local Semgrep JSON output (not source)
+.semgrep-out.json
