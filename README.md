@@ -32,7 +32,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![FHIR](https://img.shields.io/badge/FHIR-R4-red?style=for-the-badge)](https://hl7.org/fhir/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](./LICENSE)
+[![License](https://img.shields.io/badge/License-Dual%20License-blue?style=for-the-badge)](./LICENSE)
 
 _Architect & Built by [Claudesy](https://github.com/Claudesy)_
 
@@ -1287,11 +1287,14 @@ text
 
 ## License
 
-**MIT License** — See [`LICENSE`](./LICENSE).
+**Dual License** — See [`LICENSE`](./LICENSE).
+
+- **Community (Apache 2.0):** Free for individual clinicians, researchers, and students (non-commercial use).
+- **Enterprise (Proprietary):** Required for puskesmas, hospitals, vendors, and organizational deployments. Contact [sentra-dfi.com](https://sentra-dfi.com).
 
 Clinical use is subject to institutional policy, Indonesian law, and disclaimers in [`DISCLAIMER.md`](./DISCLAIMER.md).
 
-> Copyright © 2026 **Claudesy** — dr. Claudesy
+> Copyright © 2024–2026 **Claudesy** — dr. Ferdi Iskandar
 
 ---
 
@@ -1612,35 +1615,25 @@ flowchart TD
 
 ## License
 
-Copyright 2026 **Claudesy** (Dr. Claudesy)
+Copyright 2024–2026 **Claudesy** — dr. Ferdi Iskandar
 
-Licensed under the **Apache License, Version 2.0** (the "License"); you may not
-use files in this repository except in compliance with the License.
+IntelligenceBoard is dual-licensed:
 
-You may obtain a copy of the License at:
+| Who You Are | License |
+|---|---|
+| Individual doctor, researcher, or student (non-commercial) | ✅ Community — Apache 2.0 (free) |
+| Puskesmas or clinic deployment | 🔒 Enterprise License required |
+| Hospital or health system | 🔒 Enterprise License required |
+| Vendor or system integrator | 🔒 Enterprise License required |
+| Government program (Dinkes, Kemenkes) | 🔒 Enterprise License required |
 
-> http://www.apache.org/licenses/LICENSE-2.0
+Enterprise licensing: **[sentra-dfi.com](https://sentra-dfi.com)**
 
-### What This Means
-
-| Permission | Requirement |
-|------------|-------------|
-| ✅ Commercial use | Preserve copyright notice |
-| ✅ Modify freely | State all changes made |
-| ✅ Distribute copies | Include the full Apache 2.0 license text |
-| ✅ Sublicense | Distribute under the same Apache 2.0 terms |
-| ✅ Private use | No requirement to disclose source |
-| ✅ Patent use | Contributors grant explicit patent rights |
-
-**Patent Protection:** Apache 2.0 includes an explicit patent grant from every
-contributor. If any entity initiates patent litigation claiming that a
-contribution in this repository constitutes patent infringement, that entity's
-patent license is automatically terminated.
+See [`LICENSE`](./LICENSE) for full terms.
 
 Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an **"AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND**, either express or implied. See the [LICENSE](./LICENSE)
-file for the full text governing permissions and limitations.
+under the Community License is distributed on an **"AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND**, either express or implied.
 
 ---
 
