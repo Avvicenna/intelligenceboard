@@ -529,48 +529,58 @@ At >50 concurrent users, extract Playwright RPA and CDSS inference to separate b
 ---
 
 ## Project Structure
+## Project Structure
+
+```bash
 healthcare-dashboard/
-├── server.ts # Custom HTTP + Socket.IO server entry
+├── server.ts                  # Custom HTTP + Socket.IO server entry
 ├── next.config.ts
-├── tsconfig.json # TypeScript strict mode
+├── tsconfig.json              # TypeScript strict mode
 ├── railway.toml
 ├── package.json
 │
 ├── src/
-│ ├── app/
-│ │ ├── layout.tsx # Root layout (ThemeProvider + CrewAccessGate + AppNav)
-│ │ ├── page.tsx # Home / Profile Dashboard
-│ │ ├── globals.css # Dark/light theme tokens
-│ │ ├── emr/ # EMR Auto-Fill UI
-│ │ ├── icdx/ # ICD-X lookup UI
-│ │ ├── report/ # LB1 report UI
-│ │ ├── voice/ # Audrey voice UI
-│ │ ├── acars/ # Internal chat UI
-│ │ ├── pasien/ # Patient records UI
-│ │ ├── telemedicine/ # Telemedicine UI
-│ │ └── api/ # All route handlers
-│ │
-│ ├── components/
-│ │ ├── AppNav.tsx
-│ │ ├── CrewAccessGate.tsx
-│ │ ├── ThemeProvider.tsx
-│ │ └── ui/
-│ │
-│ └── lib/
-│ ├── crew-access.ts
-│ ├── server/
-│ ├── lb1/ # LB1 pipeline engine
-│ ├── emr/ # EMR RPA engine
-│ ├── icd/ # ICD-10 database
-│ └── telemedicine/ # WebRTC, signaling, SOAP generator
+│   ├── app/
+│   │   ├── layout.tsx         # Root layout (ThemeProvider + CrewAccessGate + AppNav)
+│   │   ├── page.tsx           # Home / Profile Dashboard
+│   │   ├── globals.css        # Dark/light theme tokens
+│   │   ├── emr/               # EMR Auto-Fill UI
+│   │   ├── icdx/              # ICD-X lookup UI
+│   │   ├── report/            # LB1 report UI
+│   │   ├── voice/             # Audrey voice UI
+│   │   ├── acars/             # Internal chat UI
+│   │   ├── pasien/            # Patient records UI
+│   │   ├── telemedicine/      # Telemedicine UI
+│   │   └── api/               # All route handlers
+│   │       ├── auth/
+│   │       ├── emr/
+│   │       ├── icdx/
+│   │       ├── report/
+│   │       ├── voice/
+│   │       ├── cdss/
+│   │       └── telemedicine/
+│   │
+│   ├── components/
+│   │   ├── AppNav.tsx
+│   │   ├── CrewAccessGate.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   └── ui/
+│   │       ├── Button.tsx
+│   │       ├── Card.tsx
+│   │       └── DataTable.tsx
+│   │
+│   └── lib/
+│       ├── crew-access.ts     # Auth types/constants
+│       ├── server/            # Server-only auth logic
+│       ├── lb1/               # LB1 pipeline engine
+│       ├── emr/               # EMR RPA engine + Playwright
+│       ├── icd/               # ICD-10 database
+│       └── telemedicine/      # WebRTC, signaling, SOAP generator
 │
-├── docs/plans/
-├── runtime/ # Gitignored — secrets & configs
-└── mintlify-docs/ # Public API docs
-
-text
-
----
+├── docs/plans/                # Design documents
+├── runtime/                   # Gitignored — secrets & configs
+└── mintlify-docs/             # Public API documentation
+```
 
 ## API Reference
 
