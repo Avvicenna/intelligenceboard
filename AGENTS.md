@@ -120,9 +120,9 @@ state.
 ```text
 intelligenceBoard/
 ├── AGENTS.md                  ← This file (IntelligenceBoard scoped instructions)
-├── app/                       ← Next.js App Router
-├── components/                ← React Components
-├── lib/                       ← Utilities and API abstractions
+├── src/app/                   ← Next.js App Router
+├── src/components/            ← React Components
+├── src/lib/                   ← Utilities and API abstractions
 └── public/                    ← Static assets
 ```
 

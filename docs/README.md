@@ -1,7 +1,7 @@
-# Technical documentation — Puskesmas Dashboard
+# Technical documentation — IntelligenceBoard
 
 This directory contains deeper technical material for
-**`@the-abyss/sentra-dashboard`** (Puskesmas staff dashboard in **The Abyss**
+**`@claudesy/intelligenceboard`** (Puskesmas staff dashboard in **The Abyss**
 monorepo).
 
 ## Index
@@ -38,7 +38,7 @@ The deployed documentation for this app is maintained under
 The `docs/` folder here remains the **internal** technical index (Markdown).
 
 **Scripts** (from package root, or
-`pnpm --filter @the-abyss/sentra-dashboard run …` from the monorepo root):
+`pnpm --filter @claudesy/intelligenceboard run …` from the monorepo root):
 
 | Script       | Purpose                                                                                                                        |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -50,7 +50,7 @@ The `docs/` folder here remains the **internal** technical index (Markdown).
 [dashboard deployment settings](https://mintlify.com/docs/deploy/monorepo),
 enable **monorepo** and set the docs root to:
 
-`apps/healthcare/sentra-dashboard/mintlify-docs`
+`apps/healthcare/intelligenceBoard/mintlify-docs`
 
 Authorize the Mintlify GitHub App for this repository and align the deployment
 branch with your primary branch (`main`, `master`, or `develop`).

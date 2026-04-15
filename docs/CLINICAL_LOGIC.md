@@ -1,7 +1,7 @@
-# File: docs/CLINICAL_LOGIC.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/CLINICAL_LOGIC.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# Clinical Logic — AADI (primary-healthcare)
+# Clinical Logic — IntelligenceBoard
 
 > ⚠️ Alat bantu keputusan klinis. Keputusan akhir ada pada dokter.
 

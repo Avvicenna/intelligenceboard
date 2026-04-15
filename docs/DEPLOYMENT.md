@@ -1,8 +1,8 @@
-# File: docs/DEPLOYMENT.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-04-08
+# File: docs/DEPLOYMENT.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-04-08
 
 # Architected and built by Claudesy.
 
-# Deployment — primary-healthcare (AADI)
+# Deployment — IntelligenceBoard
 
 ---
 
@@ -11,7 +11,7 @@
 | Environment   | Provider       | URL                                                  | Trigger         |
 | ------------- | -------------- | ---------------------------------------------------- | --------------- |
 | Local dev     | localhost:7000 | http://localhost:7000                                | `pnpm dev`      |
-| Production    | Railway        | https://primary-healthcare-production.up.railway.app | Manual / Gate 5 |
+| Production    | Railway        | https://intelligenceboard-production.up.railway.app | Manual / Gate 5 |
 | Domain custom | Railway        | https://puskesmasbalowerti.com                       | DNS → Railway   |
 
 ---
@@ -49,10 +49,10 @@ NODE_ENV = "production"
 
 ```bash
 # 1. Build production
-pnpm --filter @the-abyss/sentra-dashboard build:railway
+pnpm --filter @claudesy/intelligenceboard build:railway
 
 # 2. Test production build lokal
-NODE_ENV=production pnpm --filter @the-abyss/sentra-dashboard start
+NODE_ENV=production pnpm --filter @claudesy/intelligenceboard start
 
 # 3. Deploy ke Railway (staging)
 railway up

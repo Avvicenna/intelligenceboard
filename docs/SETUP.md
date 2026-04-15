@@ -1,7 +1,7 @@
-# File: docs/SETUP.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/SETUP.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# Setup — primary-healthcare (AADI)
+# Setup — IntelligenceBoard
 
 ---
 
@@ -26,11 +26,11 @@ cp .env.example .env.local
 # Edit .env.local — isi semua nilai yang diperlukan
 
 # Database setup
-pnpm --filter primary-healthcare db:migrate
-pnpm --filter primary-healthcare db:seed
+pnpm --filter @claudesy/intelligenceboard db:migrate
+pnpm --filter @claudesy/intelligenceboard db:seed
 
 # Dev server (custom server dengan Socket.IO)
-pnpm --filter primary-healthcare dev
+pnpm --filter @claudesy/intelligenceboard dev
 # → http://localhost:7000
 ```
 
@@ -89,7 +89,7 @@ Script ini menginstall pre-push hooks sesuai SYNAPSE pipeline.
 
 Manual install:
 ```bash
-pnpm --filter primary-healthcare setup:git-guardrails
+pnpm --filter @claudesy/intelligenceboard setup:git-guardrails
 ```
 
 ---
@@ -97,17 +97,17 @@ pnpm --filter primary-healthcare setup:git-guardrails
 ## Commands
 
 ```bash
-pnpm --filter primary-healthcare dev              # Dev server (port 7000)
-pnpm --filter primary-healthcare dev:clean        # Dev server + clear .next lock
-pnpm --filter primary-healthcare build            # Production build
-pnpm --filter primary-healthcare start            # Production server
-pnpm --filter primary-healthcare lint             # TypeScript check (tsc --noEmit)
-pnpm --filter primary-healthcare test             # Full test suite
-pnpm --filter primary-healthcare test:cdss        # CDSS engine tests saja
-pnpm --filter primary-healthcare test:auth-hardening  # Auth security tests
-pnpm --filter primary-healthcare db:migrate       # Prisma migrate
-pnpm --filter primary-healthcare db:studio        # Prisma Studio
-pnpm --filter primary-healthcare db:seed          # Seed database
+pnpm --filter @claudesy/intelligenceboard dev              # Dev server (port 7000)
+pnpm --filter @claudesy/intelligenceboard dev:clean        # Dev server + clear .next lock
+pnpm --filter @claudesy/intelligenceboard build            # Production build
+pnpm --filter @claudesy/intelligenceboard start            # Production server
+pnpm --filter @claudesy/intelligenceboard lint             # TypeScript check (tsc --noEmit)
+pnpm --filter @claudesy/intelligenceboard test             # Full test suite
+pnpm --filter @claudesy/intelligenceboard test:cdss        # CDSS engine tests saja
+pnpm --filter @claudesy/intelligenceboard test:auth-hardening  # Auth security tests
+pnpm --filter @claudesy/intelligenceboard db:migrate       # Prisma migrate
+pnpm --filter @claudesy/intelligenceboard db:studio        # Prisma Studio
+pnpm --filter @claudesy/intelligenceboard db:seed          # Seed database
 ```
 
 ---
@@ -126,7 +126,7 @@ restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 ```
 
-Production URL: `https://primary-healthcare-production.up.railway.app`
+Production URL: `https://intelligenceboard-production.up.railway.app`
 Domain custom: `https://puskesmasbalowerti.com`
 
 ---

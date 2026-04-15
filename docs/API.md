@@ -1,7 +1,7 @@
-# File: docs/API.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/API.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# API Reference — primary-healthcare (AADI)
+# API Reference — IntelligenceBoard
 
 ---
 

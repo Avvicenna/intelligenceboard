@@ -218,7 +218,7 @@
 
 ### Completed
 - [x] Verified environment: Node `v22.22.2`, pnpm `9.15.0`, npm `10.9.7`
-- [x] Confirmed git traceability blocker: `apps/healthcare/sentra-dashboard` is untracked from monorepo HEAD `b9d5bad2880bcb81bd8077dd77bfcd0fa14b1fec`
+- [x] Confirmed git traceability blocker: `apps/healthcare/intelligenceBoard` is untracked from monorepo HEAD `b9d5bad2880bcb81bd8077dd77bfcd0fa14b1fec`
 - [x] Regenerated Prisma Client after stale generated exports caused `tsc` failures
 - [x] Verified `pnpm run lint` PASS
 - [x] Verified `pnpm run build` PASS; remaining Turbopack NFT warning points to `crew-access-institutions.ts`

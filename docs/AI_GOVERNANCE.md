@@ -1,7 +1,7 @@
-# File: docs/AI_GOVERNANCE.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/AI_GOVERNANCE.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# AI Governance — primary-healthcare (AADI)
+# AI Governance — IntelligenceBoard
 
 > _"Technology enables, but humans decide."_ — Sentra Healthcare Solutions
 

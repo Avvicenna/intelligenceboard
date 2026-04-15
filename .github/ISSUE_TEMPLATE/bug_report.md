@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Laporkan bug di AADI (primary-healthcare / Puskesmas Dashboard)
+about: Laporkan bug di AADI (IntelligenceBoard)
 title: "[BUG][AADI] "
 labels: bug, aadi, needs-triage
 assignees: ''

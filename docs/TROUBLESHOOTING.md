@@ -1,7 +1,7 @@
-# File: docs/TROUBLESHOOTING.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/TROUBLESHOOTING.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# Troubleshooting — primary-healthcare (AADI)
+# Troubleshooting — IntelligenceBoard
 
 ---
 
@@ -16,7 +16,7 @@ Atur manual: `PORT=7002 pnpm dev`
 
 ### `.next/dev/lock` conflict
 ```bash
-pnpm --filter primary-healthcare dev:clean
+pnpm --filter @claudesy/intelligenceboard dev:clean
 # Ini otomatis hapus .next/dev/lock sebelum start
 ```
 
@@ -116,14 +116,14 @@ Pastikan `setIntelligenceNamespace(intelligenceNS)` sudah dipanggil di `server.t
 
 ### Migration error
 ```bash
-pnpm --filter primary-healthcare db:migrate
+pnpm --filter @claudesy/intelligenceboard db:migrate
 # Jika schema conflict:
 npx prisma migrate reset  # ⚠️ HAPUS SEMUA DATA
 ```
 
 ### Prisma Studio tidak bisa akses
 ```bash
-pnpm --filter primary-healthcare db:studio
+pnpm --filter @claudesy/intelligenceboard db:studio
 # Buka http://localhost:5555
 ```
 
@@ -133,7 +133,7 @@ pnpm --filter primary-healthcare db:studio
 
 ### TypeScript errors
 ```bash
-pnpm --filter primary-healthcare lint
+pnpm --filter @claudesy/intelligenceboard lint
 # = tsc --noEmit --incremental false
 ```
 Semua errors harus fix sebelum commit. `strict: true` aktif.

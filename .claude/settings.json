@@ -2,8 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(powershell -NoProfile -Command ':*)",
-      "Bash(git -C d:/Devop/abyss-monorepo/apps/healthcare/primary-healthcare/dashboard add scripts/test-auth-hardening.ts scripts/test-suite.ts)",
-      "Bash(git -C d:/Devop/abyss-monorepo/apps/healthcare/primary-healthcare/dashboard diff --cached --stat)"
+      "Bash(git -C d:/Devop/abyss-monorepo/apps/healthcare/intelligenceBoard add scripts/test-auth-hardening.ts scripts/test-suite.ts)",
+      "Bash(git -C d:/Devop/abyss-monorepo/apps/healthcare/intelligenceBoard diff --cached --stat)"
     ],
     "additionalDirectories": [
       "d:\\Devop\\abyss-monorepo\\apps\\healthcare\\sentra-assist\\docs\\superpowers\\specs"

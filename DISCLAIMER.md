@@ -1,6 +1,6 @@
 # Disclaimer
 
-**Puskesmas Dashboard** (`@the-abyss/sentra-dashboard`) is software tooling for
+**IntelligenceBoard** (`@claudesy/intelligenceboard`) is software tooling for
 primary healthcare operations. It is **not** a medical device, not a substitute
 for professional clinical judgment, and not a replacement for direct patient
 care.

@@ -34,11 +34,7 @@
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
     "prisma:generate": "node -e \"process.env.DATABASE_URL ||= 'postgresql://placeholder:placeholder@127.0.0.1:5432/placeholder?schema=public'; const { spawnSync } = require('node:child_process'); const result = spawnSync(process.execPath, ['./node_modules/prisma/build/index.js', 'generate'], { stdio: 'inherit', env: process.env }); process.exit(result.status ?? 1);\"",
-    "docs:api": "node scripts/update-api-docs.mjs",
-    "docs:dev": "cd mintlify-docs && mintlify dev --port 3004",
-    "docs:validate": "cd mintlify-docs && mintlify validate",
-    "docs:broken-links": "cd mintlify-docs && mintlify broken-links",
-    "docs:check": "cd mintlify-docs && mintlify validate && mintlify broken-links"
+    "docs:api": "node scripts/update-api-docs.mjs"
   },
   "dependencies": {
     "@e965/xlsx": "^0.20.3",
@@ -80,7 +76,6 @@
     "@types/pg": "^8.18.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "mintlify": "^4.2.441",
     "playwright": "^1.40.0",
     "prisma": "^6.16.1",
     "tailwindcss": "^4.2.1",

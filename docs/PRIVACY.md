@@ -1,7 +1,7 @@
-# File: docs/PRIVACY.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/PRIVACY.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# Privacy & Data Handling — primary-healthcare (AADI)
+# Privacy & Data Handling — IntelligenceBoard
 
 ---
 

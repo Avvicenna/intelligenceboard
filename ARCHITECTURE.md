@@ -12,7 +12,7 @@
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| Framework | Next.js | 16.1.6 |
+| Framework | Next.js | 16.2.3 |
 | Runtime | React | 19.2.3 |
 | Language | TypeScript | 5.9.3 (strict) |
 | Styling | Tailwind CSS | 4.2.1 |
@@ -52,14 +52,14 @@ Server custom menggabungkan:
 - `https://puskesmasbalowerti.com`
 - `https://www.puskesmasbalowerti.com`
 - `https://crew.puskesmasbalowerti.com`
-- `https://primary-healthcare-production.up.railway.app`
+- `https://intelligenceboard-production.up.railway.app`
 
 ---
 
 ## Application Structure
 
 ```
-primary-healthcare/
+intelligenceBoard/
 ├── server.ts                         Custom HTTP + Socket.IO + Gemini Live proxy
 ├── src/
 │   ├── app/                          Next.js App Router pages

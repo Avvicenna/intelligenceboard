@@ -207,7 +207,7 @@ pnpm run security:catch-scan
 - `pnpm audit --prod --audit-level=high --json` still fails with monorepo-wide
   vulnerabilities; last metadata count: 7 low, 45 moderate, 35 high, 4 critical.
 - Forensic simplify diff remains blocked because
-  `apps/healthcare/sentra-dashboard` is untracked from monorepo HEAD
+  `apps/healthcare/intelligenceBoard` is untracked from monorepo HEAD
   `b9d5bad2880bcb81bd8077dd77bfcd0fa14b1fec`.
 - Auth-hardening still needs a disposable non-production Postgres/Neon database.
 

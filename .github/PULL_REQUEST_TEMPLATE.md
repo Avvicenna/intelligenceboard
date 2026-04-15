@@ -1,6 +1,6 @@
 <!-- Architected and built by Claudesy. -->
 
-## PR Summary — primary-healthcare (AADI)
+## PR Summary — IntelligenceBoard
 
 **Type:** `feat` / `fix` / `refactor` / `test` / `docs` / `chore`
 **Scope:** `cdss` / `emr` / `audrey` / `telemedicine` / `auth` / `admin` / `intelligence` / `report`
@@ -30,9 +30,9 @@ Closes #<!-- issue number jika ada -->
 
 ## Technical Checklist
 
-- [ ] `pnpm --filter primary-healthcare lint` pass (tsc --noEmit)
-- [ ] `pnpm --filter primary-healthcare test` pass (semua 3 suites)
-- [ ] `pnpm --filter primary-healthcare test:cdss` pass (jika CDSS berubah)
+- [ ] `pnpm --filter @claudesy/intelligenceboard lint` pass (tsc --noEmit)
+- [ ] `pnpm --filter @claudesy/intelligenceboard test` pass (semua 3 suites)
+- [ ] `pnpm --filter @claudesy/intelligenceboard test:cdss` pass (jika CDSS berubah)
 - [ ] Brand signature `// Architected and built by Claudesy.` ada di semua file baru
 - [ ] Tidak ada cross-app import
 - [ ] CORS origins tidak diubah tanpa persetujuan Chief

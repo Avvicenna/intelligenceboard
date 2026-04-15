@@ -1,7 +1,7 @@
-# File: docs/TESTING.md | App: primary-healthcare | Repo: abyss-v3 | Updated: 2026-03-16
+# File: docs/TESTING.md | App: intelligenceBoard | Repo: abyss-monorepo | Updated: 2026-03-16
 # Architected and built by Claudesy.
 
-# Testing Guide — primary-healthcare (AADI)
+# Testing Guide — IntelligenceBoard
 
 ---
 
@@ -9,19 +9,19 @@
 
 ```bash
 # Semua test suites (dari root monorepo)
-pnpm --filter primary-healthcare test
+pnpm --filter @claudesy/intelligenceboard test
 
 # CDSS engine saja
-pnpm --filter primary-healthcare test:cdss
+pnpm --filter @claudesy/intelligenceboard test:cdss
 
 # Auth hardening saja
-pnpm --filter primary-healthcare test:auth-hardening
+pnpm --filter @claudesy/intelligenceboard test:auth-hardening
 
 # CDSS protected route (Node module test)
-pnpm --filter primary-healthcare test:cdss:protected
+pnpm --filter @claudesy/intelligenceboard test:cdss:protected
 
 # TypeScript check
-pnpm --filter primary-healthcare lint
+pnpm --filter @claudesy/intelligenceboard lint
 ```
 
 ---

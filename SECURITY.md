@@ -22,11 +22,11 @@ Laporkan langsung ke Chief (Dr. Ferdi Iskandar). **Jangan buka GitHub issue publ
 
 ### Authorization — CDSS Endpoint
 - `POST /api/cdss/diagnose` — requires valid crew session
-- Role check: TODO (noted di route handler, pending RBAC matrix produksi)
+- Role check: ✅ Implemented — `isClinicalCrewRole` check di route handler, returns 403 for non-clinical roles
 - Semua request dicatat ke Security Audit Log
 
 ### Security Baseline Gate
-- Repo baseline security checks dijalankan lewat `npm run security:baseline`
+- Repo baseline security checks dijalankan lewat `pnpm run security:baseline`
 - Baseline saat ini mencakup:
   - `test:auth-hardening`
   - `test:cdss:protected`
@@ -65,7 +65,7 @@ Production whitelist:
 https://puskesmasbalowerti.com
 https://www.puskesmasbalowerti.com
 https://crew.puskesmasbalowerti.com
-https://primary-healthcare-production.up.railway.app
+https://intelligenceboard-production.up.railway.app
 ```
 
 ---
@@ -74,14 +74,14 @@ https://primary-healthcare-production.up.railway.app
 
 | Versi | Didukung |
 |-------|---------|
-| 0.2.x | ✅ Ya   |
-| < 0.2 | ❌ Tidak |
+| 0.1.x | ✅ Ya   |
+| < 0.1 | ❌ Tidak |
 
 ---
 
 ## Known Issues / TODOs Security
 
-- Role-based authorization di `/api/cdss/diagnose` belum diimplementasi (lihat comment `TODO(security)` di route handler)
+- Role-based authorization di `/api/cdss/diagnose`: implementasi dasar tersedia (`isClinicalCrewRole`); RBAC matrix produksi lengkap masih perlu audit terpisah
 - `RBAC_BACKEND` masih OPEN di `infra/ci/missing-inputs.md` (#3)
 - Dependency graph masih memiliki audit findings bawaan; triage dan remediation version upgrade perlu batch terpisah
 - Surface Prisma readiness untuk lint/CI sudah dipulihkan lewat explicit generate step; lint sekarang kembali hijau
