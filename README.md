@@ -1,7 +1,6 @@
-```markdown
 <div align="center">
 
-# 🏥 Puskesmas Intelligence Dashboard
+# Sentra IntelligenceBoard
 
 **Clinical Information System for Primary & Maternal Healthcare Facilities**
 
@@ -24,13 +23,13 @@ _Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Health
 
 ## Executive Summary
 
-**Puskesmas Intelligence Dashboard** is a full-stack clinical operations platform for **UPTD Puskesmas PONED Site, Kota Kediri**. It unifies clinical workflows, regulatory reporting, diagnostic AI, and real-time communication into one interface.
+**Sentra Intelligence Dashboard** is a full-stack clinical operations platform for **UPTD Puskesmas PONED Site, Kota Kediri**. It unifies clinical workflows, regulatory reporting, diagnostic AI, and real-time communication into one interface.
 
-- 🩺 Reduces clinician admin burden via intelligent EMR automation and AI-assisted documentation
-- 👶 Improves maternal outcomes with real-time clinical decision support and ANC tracking
-- 📋 Automates monthly LB1/SP3 national reporting (hours → minutes)
-- 🌐 Bridges telemedicine gap via secure WebRTC video consultations
-- 🔒 Protects PHI with HMAC sessions, audit logs, and end-to-end encryption
+- Reduces clinician admin burden via intelligent EMR automation and AI-assisted documentation
+- Improves maternal outcomes with real-time clinical decision support and ANC tracking
+- Automates monthly LB1/SP3 national reporting (hours → minutes)
+- Bridges telemedicine gap via secure WebRTC video consultations
+- Protects PHI with HMAC sessions, audit logs, and end-to-end encryption
 
 **Target Users:**
 
@@ -95,7 +94,6 @@ npx playwright install chromium
 cp .env.example .env.local   # then fill in your credentials
 ```
 
-
 ### Environment Variables
 
 ```env
@@ -133,14 +131,12 @@ RECORDING_STORAGE_PATH=/var/recordings
 TELEMEDICINE_PUBLIC_BASE_URL=https://your-domain.com/telemedicine/waiting
 ```
 
-
 ### Run
 
 ```bash
 npm run dev       # Dev with Socket.IO (port 7000)
 npm run build && npm run start   # Production
 ```
-
 
 ---
 
@@ -151,7 +147,6 @@ npm run build && npm run start   # Production
 Home view with logged-in staff profile, one-click government portal links (Satu Sehat, SIPARWA, ePuskesmas, P-Care BPJS), and a live patient summary with vitals and ICD-X codes.
 
 **User Stories:**
-
 - As a doctor, I want one-click access to ePuskesmas and P-Care so I avoid navigating multiple logins
 - As any staff, I want to see my role and session status so I know I'm authenticated correctly
 
@@ -168,7 +163,6 @@ flowchart LR
     F -- No --> G[Error message]
     C --> H[Profile card + Portal links + Patient summary]
 ```
-
 
 ---
 
@@ -198,9 +192,8 @@ sequenceDiagram
 
 **API Endpoints:**
 
-
 | Method | Endpoint | Description | Status Codes |
-| :-- | :-- | :-- | :-- |
+|---|---|---|---|
 | `POST` | `/api/emr/transfer/run` | Execute EMR auto-fill | 202, 409, 503 |
 | `GET` | `/api/emr/transfer/status` | Engine status | 200 |
 | `GET` | `/api/emr/transfer/history` | Run history | 200 |
@@ -258,7 +251,6 @@ CREATE INDEX idx_icd_fts ON icd10_codes
   USING gin(to_tsvector('indonesian', description));
 ```
 
-
 ---
 
 ### 4. LB1 Report Automation
@@ -282,15 +274,13 @@ flowchart TD
 
 **API Endpoints:**
 
-
 | Method | Endpoint | Description |
-| :-- | :-- | :-- |
+|---|---|---|
 | `GET` | `/api/report/automation/preflight` | Pre-run validation |
 | `POST` | `/api/report/automation/run` | Execute pipeline |
 | `GET` | `/api/report/automation/status` | Pipeline status |
 | `GET` | `/api/report/automation/history` | Run history |
 | `GET` | `/api/report/files/download` | Download output file |
-
 
 ---
 
@@ -318,7 +308,6 @@ Voice-first AI copilot powered by **Google Gemini 2.5 Flash** (native audio). Pr
 }
 ```
 
-
 ---
 
 ### 6. ACARS — Internal Chat
@@ -327,13 +316,11 @@ Socket.IO-backed team messaging with room-based conversations, typing indicators
 
 **Real-Time Socket.IO Events:**
 
-
 | Event | Direction | Payload |
-| :-- | :-- | :-- |
+|---|---|---|
 | `acars:message` | Server → Client | `{roomId, sender, text, timestamp}` |
 | `acars:typing` | Client → Server | `{roomId, username}` |
 | `acars:presence` | Server → Client | `{username, status}` |
-
 
 ---
 
@@ -369,7 +356,6 @@ Combines a local knowledge base (159 diseases, 45,030 encounter records) with Ge
 }
 ```
 
-
 ---
 
 ### 8. Crew Access Portal
@@ -399,14 +385,12 @@ sequenceDiagram
 
 **Security Properties:**
 
-
 | Property | Value |
-| :-- | :-- |
+|---|---|
 | Cookie flags | `HttpOnly`, `Secure`, `SameSite=Strict` |
 | HMAC algorithm | SHA-256 |
 | Session TTL | 12 hours |
 | Rate limiting | 5 login attempts / 15 min (recommended) |
-
 
 ---
 
@@ -438,15 +422,14 @@ sequenceDiagram
 
 **API Endpoints:**
 
-
 | Method | Endpoint | Description |
-| :-- | :-- | :-- |
+|---|---|---|
 | `POST` | `/api/telemedicine/sessions` | Create session |
 | `GET` | `/api/telemedicine/sessions` | List sessions |
 | `PATCH` | `/api/telemedicine/sessions/:id` | Update status |
 | `POST` | `/api/telemedicine/signal` | WebRTC signaling |
 | `POST` | `/api/telemedicine/recording/start` | Start recording |
-| `POST` | `/api/telemedicine/recording/stop` | Stop \& save |
+| `POST` | `/api/telemedicine/recording/stop` | Stop & save |
 | `GET/POST` | `/api/telemedicine/schedule` | Slot management |
 
 **Database Schema:**
@@ -524,14 +507,12 @@ graph TB
     NextJS --> SMS
 ```
 
-
 ### Deployment Recommendation
 
 **Recommended: Enhanced Monolith (current) → Modular Monolith (v2)**
 
-
 | Approach | Verdict | Reason |
-| :-- | :-- | :-- |
+|---|---|---|
 | Monolith | ✅ Now | Simple ops, fits current team and scale |
 | Microservices | ❌ Premature | Operational overhead not justified |
 | Serverless | ❌ Incompatible | Socket.IO and WebRTC require persistent connections |
@@ -548,48 +529,46 @@ At >50 concurrent users, extract Playwright RPA and CDSS inference to separate b
 ---
 
 ## Project Structure
-
-```
 healthcare-dashboard/
-├── server.ts                  # Custom HTTP + Socket.IO server entry
+├── server.ts # Custom HTTP + Socket.IO server entry
 ├── next.config.ts
-├── tsconfig.json              # TypeScript strict mode
+├── tsconfig.json # TypeScript strict mode
 ├── railway.toml
 ├── package.json
 │
 ├── src/
-│   ├── app/
-│   │   ├── layout.tsx         # Root layout (ThemeProvider + CrewAccessGate + AppNav)
-│   │   ├── page.tsx           # Home / Profile Dashboard
-│   │   ├── globals.css        # Dark/light theme tokens
-│   │   ├── emr/               # EMR Auto-Fill UI
-│   │   ├── icdx/              # ICD-X lookup UI
-│   │   ├── report/            # LB1 report UI
-│   │   ├── voice/             # Audrey voice UI
-│   │   ├── acars/             # Internal chat UI
-│   │   ├── pasien/            # Patient records UI
-│   │   ├── telemedicine/      # Telemedicine UI
-│   │   └── api/               # All route handlers
-│   │
-│   ├── components/
-│   │   ├── AppNav.tsx
-│   │   ├── CrewAccessGate.tsx
-│   │   ├── ThemeProvider.tsx
-│   │   └── ui/
-│   │
-│   └── lib/
-│       ├── crew-access.ts
-│       ├── server/
-│       ├── lb1/               # LB1 pipeline engine
-│       ├── emr/               # EMR RPA engine
-│       ├── icd/               # ICD-10 database
-│       └── telemedicine/      # WebRTC, signaling, SOAP generator
+│ ├── app/
+│ │ ├── layout.tsx # Root layout (ThemeProvider + CrewAccessGate + AppNav)
+│ │ ├── page.tsx # Home / Profile Dashboard
+│ │ ├── globals.css # Dark/light theme tokens
+│ │ ├── emr/ # EMR Auto-Fill UI
+│ │ ├── icdx/ # ICD-X lookup UI
+│ │ ├── report/ # LB1 report UI
+│ │ ├── voice/ # Audrey voice UI
+│ │ ├── acars/ # Internal chat UI
+│ │ ├── pasien/ # Patient records UI
+│ │ ├── telemedicine/ # Telemedicine UI
+│ │ └── api/ # All route handlers
+│ │
+│ ├── components/
+│ │ ├── AppNav.tsx
+│ │ ├── CrewAccessGate.tsx
+│ │ ├── ThemeProvider.tsx
+│ │ └── ui/
+│ │
+│ └── lib/
+│ ├── crew-access.ts
+│ ├── server/
+│ ├── lb1/ # LB1 pipeline engine
+│ ├── emr/ # EMR RPA engine
+│ ├── icd/ # ICD-10 database
+│ └── telemedicine/ # WebRTC, signaling, SOAP generator
 │
 ├── docs/plans/
-├── runtime/                   # Gitignored — secrets & configs
-└── mintlify-docs/             # Public API docs
-```
+├── runtime/ # Gitignored — secrets & configs
+└── mintlify-docs/ # Public API docs
 
+text
 
 ---
 
@@ -600,7 +579,7 @@ All routes prefixed `/api`. Authentication via HMAC-signed session cookie requir
 ### Full Endpoint Table
 
 | Method | Endpoint | Module | Description |
-| :-- | :-- | :-- | :-- |
+|---|---|---|---|
 | `POST` | `/api/auth/login` | Auth | Authenticate staff |
 | `POST` | `/api/auth/logout` | Auth | End session |
 | `GET` | `/api/auth/session` | Auth | Validate session |
@@ -626,25 +605,24 @@ All routes prefixed `/api`. Authentication via HMAC-signed session cookie requir
 | `POST` | `/api/telemedicine/recording/stop` | Tele | Stop recording |
 | `GET/POST` | `/api/telemedicine/schedule` | Tele | Slot management |
 
-
 ---
 
-## Security \& Privacy
+## Security & Privacy
 
-### Authentication \& Authorization
+### Authentication & Authorization
 
 | Property | Implementation |
-| :-- | :-- |
+|---|---|
 | Mechanism | HMAC-SHA256 signed session cookies |
 | TTL | 12 hours |
 | Cookie flags | `HttpOnly`, `Secure`, `SameSite=Strict` |
 | Role enforcement | API route-level (`doctor`, `midwife`, `nurse`, `admin`) |
 | Future upgrade | OAuth2/OIDC via Keycloak or Auth0 |
 
-### Encryption \& Secrets
+### Encryption & Secrets
 
 | Layer | Mechanism |
-| :-- | :-- |
+|---|---|
 | In transit | TLS 1.3 (Railway/CDN enforced) |
 | At rest (recordings) | AES-256 |
 | Secrets | Railway environment vault |
@@ -657,11 +635,10 @@ All routes prefixed `/api`. Authentication via HMAC-signed session cookie requir
 - **Consent:** Explicit patient consent required for telemedicine recording and data sharing
 - **Audit logging:** `{timestamp, actor, action, resource_type, resource_id}` — no patient name/MRN in log lines
 
-
 ### Threat Mitigations
 
 | Threat | Mitigation |
-| :-- | :-- |
+|---|---|
 | Session forgery | HMAC-signed cookies, server-side validation |
 | Brute force login | Rate limit: 5 req / 15 min on `/api/auth/login` |
 | XSS | Next.js CSP headers, no `dangerouslySetInnerHTML` |
@@ -669,10 +646,9 @@ All routes prefixed `/api`. Authentication via HMAC-signed session cookie requir
 | SSRF (Playwright) | URL allowlist for RPA targets |
 | PHI leak | No identifiers in logs; PHI encrypted at rest |
 
-
 ---
 
-## Operations \& Deployment
+## Operations & Deployment
 
 ### Railway Deployment
 
@@ -707,23 +683,21 @@ jobs:
       - run: npm run build
 ```
 
-
 ### Observability
 
 | Signal | Tool | Key Alert Thresholds |
-| :-- | :-- | :-- |
+|---|---|---|
 | Logs | Railway structured logs | Error rate > 5% / 5 min |
 | Metrics | Railway metrics | Memory > 85% sustained 10 min |
 | Tracing (recommended) | OpenTelemetry + Jaeger | Response time > 2s avg |
 
-### Backup \& Recovery
+### Backup & Recovery
 
 | Data | Frequency | Recovery |
-| :-- | :-- | :-- |
+|---|---|---|
 | PostgreSQL | Daily `pg_dump` to S3 | Restore from latest dump |
 | LB1 output files | Retained 12 months | Download from file storage |
 | Telemedicine recordings | Per institutional policy | Restore from encrypted S3 |
-
 
 ---
 
@@ -739,7 +713,6 @@ cp .env.example .env.local
 npm run dev
 ```
 
-
 ### Database Seeds
 
 ```bash
@@ -748,15 +721,12 @@ npm run db:seed:patients  # Anonymized dummy patients
 npm run db:reset          # Full reset
 ```
 
-
 ### Commit Convention
-
-```
 type(scope): short imperative description
 
 Types: feat | fix | chore | docs | refactor | test | perf
-```
 
+text
 
 ### PR Checklist
 
@@ -767,11 +737,10 @@ Types: feat | fix | chore | docs | refactor | test | perf
 - [ ] `.env.example` updated for new variables
 - [ ] `CHANGELOG.md` updated
 
-
 ### Available Scripts
 
 | Script | Description |
-| :-- | :-- |
+|---|---|
 | `npm run dev` | Dev server with Socket.IO (port 7000) |
 | `npm run dev:next` | Next.js only (no Socket.IO) |
 | `npm run build` | Production bundle |
@@ -779,13 +748,12 @@ Types: feat | fix | chore | docs | refactor | test | perf
 | `npm run docs:dev` | Mintlify preview (port 3004) |
 | `npm run docs:api` | Regenerate OpenAPI spec |
 
-
 ---
 
-## Assumptions \& Open Questions
+## Assumptions & Open Questions
 
-| \# | Assumption | Impact if Wrong |
-| :-- | :-- | :-- |
+| # | Assumption | Impact if Wrong |
+|---|---|---|
 | A1 | ANC protocols follow Kemenkes RI 2020 guidelines | Audrey/CDSS responses need recalibration |
 | A2 | ePuskesmas has no public REST API | If API exists, replace RPA with direct calls |
 | A3 | Concurrent users < 50; monolith is sufficient | Redesign needed above this threshold |
@@ -793,7 +761,6 @@ Types: feat | fix | chore | docs | refactor | test | perf
 | A5 | TURN server provisioned separately | WebRTC fails in restricted networks without it |
 
 **Open Questions (up to 5):**
-
 1. Which specific Kemenkes ANC checklist should Audrey and CDSS follow per trimester?
 2. Is PostgreSQL live in production, or still file-backed? Migration timeline?
 3. Multi-facility expansion to other Puskesmas in Kota Kediri — planned?
@@ -805,7 +772,7 @@ Types: feat | fix | chore | docs | refactor | test | perf
 ## Related Documentation
 
 | Document | Description |
-| :-- | :-- |
+|---|---|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Full architecture breakdown |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Dev workflow and conventions |
 | [CHANGELOG.md](./CHANGELOG.md) | Version history |
@@ -815,7 +782,6 @@ Types: feat | fix | chore | docs | refactor | test | perf
 | [MODEL_CARD.md](./MODEL_CARD.md) | AI model summary |
 | [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) | Deployment operations |
 | [mintlify-docs/](./mintlify-docs/) | Public API documentation |
-
 
 ---
 
@@ -836,13 +802,8 @@ Built with care for frontline healthcare workers in Indonesia. 🇮🇩
 _Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Healthcare Solutions_
 
 </div>
-```
-
-***
-
-# `DESIGN.md` — System & UI Design Reference
-
-```markdown
+DESIGN.md — System & UI Design Reference
+text
 # DESIGN.md — Puskesmas Intelligence Dashboard
 
 > Deep-dive system design, UX guidelines, and architecture rationale.
@@ -940,12 +901,11 @@ erDiagram
     VISIT ||--o| EMR_TRANSFER_RUN : "triggers"
 ```
 
-
 ---
 
 ## Critical Flow Diagrams
 
-### Patient Registration \& First ANC Visit
+### Patient Registration & First ANC Visit
 
 ```mermaid
 sequenceDiagram
@@ -972,7 +932,6 @@ sequenceDiagram
     end
 ```
 
-
 ### Emergency Alert Flow
 
 ```mermaid
@@ -987,10 +946,9 @@ flowchart TD
     G -- No --> I[Manage at Puskesmas + document in EMR]
 ```
 
-
 ---
 
-## UX \& Visual Design Guidelines
+## UX & Visual Design Guidelines
 
 ### Design Principles
 
@@ -1002,7 +960,7 @@ flowchart TD
 ### Color Palette
 
 | Role | Light Mode | Dark Mode | Usage |
-| :-- | :-- | :-- | :-- |
+|---|---|---|---|
 | Primary | `#0066CC` | `#4DA3FF` | CTAs, links, active states |
 | Success | `#16A34A` | `#4ADE80` | Normal vitals, completed transfers |
 | Warning | `#D97706` | `#FCD34D` | Medium risk, pending actions |
@@ -1013,7 +971,7 @@ flowchart TD
 ### Typography
 
 | Scale | Font | Size | Weight | Use |
-| :-- | :-- | :-- | :-- | :-- |
+|---|---|---|---|---|
 | Display | Geist Sans | 32px | 700 | Page titles |
 | Heading 1 | Geist Sans | 24px | 600 | Section headers |
 | Heading 2 | Geist Sans | 18px | 600 | Card headers |
@@ -1023,11 +981,10 @@ flowchart TD
 ### Design Library: Tailwind CSS + shadcn/ui ✅
 
 | Option | Verdict | Reason |
-| :-- | :-- | :-- |
+|---|---|---|
 | Tailwind + shadcn/ui | ✅ Recommended | Radix primitives (accessible), fully customizable, TypeScript-native |
 | Material UI | Neutral | Rich but heavy, opinionated |
 | Ant Design | Not recommended | Large bundle, enterprise-heavy aesthetic |
-
 
 ---
 
@@ -1064,7 +1021,6 @@ Color-coded vitals display with threshold-based status indicators.
 />
 ```
 
-
 #### `<TransferStatus />`
 
 Real-time Socket.IO-driven progress bar for EMR transfers. Three states: `idle`, `running` (animated progress), `complete`/`failed` (toast notification).
@@ -1074,80 +1030,74 @@ Real-time Socket.IO-driven progress bar for EMR transfers. Three states: `idle`,
 ## Primary Screen Wireframes
 
 ### Dashboard (Home)
-
-```
 ┌─────────────────────────────────────────────────────────┐
-│  [Logo] Puskesmas Intelligence    [User] dr. Ferdi  [⚙]  │
+│ [Logo] Puskesmas Intelligence [User] dr. Ferdi [⚙] │
 ├──────────┬──────────────────────────────────────────────┤
-│  SIDEBAR │  PROFILE CARD                                │
-│          │  ┌──────────────────────────────────────┐    │
-│ Dashboard│  │ 👤 dr. Claudesy  [Doctor]       │    │
-│ EMR      │  │ Dept: Umum  |  Last login: 07:00     │    │
-│ ICD-X    │  └──────────────────────────────────────┘    │
-│ Reports  │                                              │
-│ Audrey   │  PORTAL QUICK-LINKS                          │
-│ ACARS    │  [Satu Sehat] [SIPARWA] [ePuskesmas] [BPJS]  │
-│ CDSS     │                                              │
-│ Pasien   │  TODAY'S PATIENTS                            │
-│ Teleconsult  ┌─────────────────────────────────────┐    │
-│          │  │ MRN       Name         Risk  Last Dx │    │
-│          │  │ PKM-001   Ny. Sari D.  🔴   Z34.2   │    │
-│          │  │ PKM-002   Tn. Budi W.  🟢   R51     │    │
-│          │  └─────────────────────────────────────┘    │
+│ SIDEBAR │ PROFILE CARD │
+│ │ ┌──────────────────────────────────────┐ │
+│ Dashboard│ │ 👤 dr. Claudesy [Doctor] │ │
+│ EMR │ │ Dept: Umum | Last login: 07:00 │ │
+│ ICD-X │ └──────────────────────────────────────┘ │
+│ Reports │ │
+│ Audrey │ PORTAL QUICK-LINKS │
+│ ACARS │ [Satu Sehat] [SIPARWA] [ePuskesmas] [BPJS] │
+│ CDSS │ │
+│ Pasien │ TODAY'S PATIENTS │
+│ Teleconsult ┌─────────────────────────────────────┐ │
+│ │ │ MRN Name Risk Last Dx │ │
+│ │ │ PKM-001 Ny. Sari D. 🔴 Z34.2 │ │
+│ │ │ PKM-002 Tn. Budi W. 🟢 R51 │ │
+│ │ └─────────────────────────────────────┘ │
 └──────────┴──────────────────────────────────────────────┘
-```
 
+text
 
 ### ANC Record Form
-
-```
 ┌─────────────────────────────────────────────────────────┐
-│  Patient: Ny. Sari Dewi  |  MRN: PKM-2026-00123         │
-│  ─────────────────────────────────────────────────────  │
-│  Gestational Age (weeks): [____]  Visit Date: [date]    │
-│                                                         │
-│  Blood Pressure: Systolic [___] / Diastolic [___] mmHg  │
-│  Weight: [___] kg    Fundal Height: [___] cm            │
-│  Fetal Heart Rate: [___] bpm    Position: [dropdown]    │
-│                                                         │
-│  Notes: [textarea]                                      │
-│                                                         │
-│  Risk Assessment: ● Auto-calculated ▼                   │
-│                                                         │
-│                      [Cancel]  [Save ANC Record →]      │
+│ Patient: Ny. Sari Dewi | MRN: PKM-2026-00123 │
+│ ───────────────────────────────────────────────────── │
+│ Gestational Age (weeks): [____] Visit Date: [date] │
+│ │
+│ Blood Pressure: Systolic [___] / Diastolic [___] mmHg │
+│ Weight: [___] kg Fundal Height: [___] cm │
+│ Fetal Heart Rate: [___] bpm Position: [dropdown] │
+│ │
+│ Notes: [textarea] │
+│ │
+│ Risk Assessment: ● Auto-calculated ▼ │
+│ │
+│ [Cancel] [Save ANC Record →] │
 └─────────────────────────────────────────────────────────┘
-```
 
+text
 
 ### Telemedicine Waiting Room (Patient View)
-
-```
 ┌─────────────────────────────────────────────────────────┐
-│                                                         │
-│            🏥 Puskesmas PONED Site                 │
-│                                                         │
-│         Your doctor will admit you shortly.             │
-│                                                         │
-│              ⏱  Estimated wait: ~5 minutes              │
-│                                                         │
-│         📹  Camera: ● ON    🎤  Microphone: ● ON        │
-│                                                         │
-│         ┌─────────────────────────────────┐             │
-│         │  [Your camera preview here]     │             │
-│         └─────────────────────────────────┘             │
-│                                                         │
-│              [Turn off camera]  [Mute mic]              │
-│                                                         │
+│ │
+│ 🏥 Puskesmas PONED Site │
+│ │
+│ Your doctor will admit you shortly. │
+│ │
+│ ⏱ Estimated wait: ~5 minutes │
+│ │
+│ 📹 Camera: ● ON 🎤 Microphone: ● ON │
+│ │
+│ ┌─────────────────────────────────┐ │
+│ │ [Your camera preview here] │ │
+│ └─────────────────────────────────┘ │
+│ │
+│ [Turn off camera] [Mute mic] │
+│ │
 └─────────────────────────────────────────────────────────┘
-```
 
+text
 
 ---
 
 ## Tech Stack Rationale
 
 | Layer | Choice | Rationale |
-| :-- | :-- | :-- |
+|---|---|---|
 | Framework | Next.js 16 (App Router) | File-based routing, server components, built-in API routes |
 | Language | TypeScript strict | Type safety critical in health data systems |
 | Real-time | Socket.IO | Mature, reliable, room-scoped events; works with custom Node server |
@@ -1158,7 +1108,6 @@ Real-time Socket.IO-driven progress bar for EMR transfers. Three states: `idle`,
 | Deployment | Railway | Zero-config, Git-native, supports custom HTTP server |
 | UI | Tailwind + shadcn/ui | Accessible primitives, TypeScript-first, dark mode native |
 
-
 ---
 
 > **Image assets to export (SVG/PNG):**
@@ -1167,5 +1116,3 @@ Real-time Socket.IO-driven progress bar for EMR transfers. Three states: `idle`,
 > - `docs/assets/dashboard-wireframe.png` — Dashboard screen mockup
 > - `docs/assets/anc-form-wireframe.png` — ANC record form mockup
 > - `docs/assets/telemedicine-wireframe.png` — Waiting room mockup
-
-```
