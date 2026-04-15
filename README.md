@@ -1,19 +1,19 @@
 <div align="center">
 
-# Sentra IntelligenceBoard
+# IntelligenceBoard
 
-**Clinical Information System for Primary & Maternal Healthcare Facilities**
+**Indonesia Calibrated Clinical Intelligence Platform**
 
-<img src="public/pid.png" alt="Dashboard Preview" width="900" />
+<img src="public/intelligenceboard.png" alt="IntelligenceBoard" width="900" />
 
-[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/DocSynapse)
-[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
+[![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Railway](https://img.shields.io/badge/Deployed%20on-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://railway.app/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](./LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![FHIR](https://img.shields.io/badge/FHIR-R4-red?style=for-the-badge)](https://hl7.org/fhir/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](./LICENSE)
 
-_Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Healthcare Solutions_
+_Architect & Built by [Claudesy](https://github.com/Claudesy)_
 
 > **"Technology enables, but humans decide."** — dr. Claudesy, Founder
 
@@ -21,15 +21,50 @@ _Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Health
 
 ---
 
+## Overview
+
+<table>
+  <tr>
+    <td width="30%" align="center" valign="middle">
+      <img src="public/intelligenceboard.png" alt="IntelligenceBoard" width="220"/>
+      <br/><br/>
+      <strong>INTELLIGENCEBOARD</strong>
+    </td>
+    <td width="70%" valign="top">
+      <p><strong>IntelligenceBoard</strong> is a full-stack clinical operations platform that unifies clinical workflows, regulatory reporting, diagnostic Artificial Intelligence, and real-time communication into a single decision surface — engineered to think with the clinician, not behind them.</p>
+      <p>Unlike generic Electronic Medical Records, this platform is calibrated against the <strong>local epidemiological signatures of Indonesian primary healthcare</strong>: dengue seasonality patterns tied to regional geography and rainfall cycles, recurrent ISPA waves across musim pancaroba, hypertension prevalence in productive-age cohorts, maternal-risk patterns specific to PONED case mix, and tuberculosis clusters mapped to population-density kelurahan. Every alert, prediction, and triage suggestion is weighted by <strong>what actually happens in the Indonesian catchment context</strong> — not by foreign baseline assumptions.</p>
+      <p>The system continuously learns from incoming kunjungan data, surfaces early-outbreak signals before they appear in weekly SKDR reports, and gives kepala puskesmas, dokter umum, bidan, and perawat a shared, real-time operational picture — auditable, FHIR-native, and aligned with Kementerian Kesehatan reporting standards.</p>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Why a Locally-Calibrated Intelligence Layer
+
+A generic clinical dashboard treats every patient as a global baseline. A **locally-calibrated intelligence dashboard** treats every patient as a member of a specific population with specific risks. For Indonesian primary healthcare facilities, this distinction is operationally decisive.
+
+| Dimension | Generic EMR | IntelligenceBoard |
+|---|---|---|
+| **Disease prior probabilities** | Static, foreign textbook values | Bayesian priors recomputed from rolling 90-day local kunjungan data |
+| **Outbreak detection** | Manual, weekly SKDR submission | Real-time anomaly detection on syndromic clusters (panas + nyeri sendi → DBD watch) |
+| **Triage scoring** | Generic ESI/MTS | ESI re-weighted by local maternal, neonatal, and infectious-disease prevalence |
+| **Geographic awareness** | None | Heatmap per kelurahan, RT/RW-level case clustering |
+| **Seasonal awareness** | None | Embedded musim hujan / kemarau / pancaroba models for ISPA, DBD, diare |
+| **Reporting** | Manual SP2TP / SIMPUS export | Auto-generated, audit-trailed, ready for Dinkes reporting |
+
+---
+
 ## Executive Summary
 
-**Sentra Intelligence Dashboard** is a full-stack clinical operations platform for **UPTD Puskesmas PONED Site, Kota Kediri**. It unifies clinical workflows, regulatory reporting, diagnostic AI, and real-time communication into one interface.
+**IntelligenceBoard** is a full-stack clinical operations platform for Indonesian primary healthcare facilities (Puskesmas, FKTP, PONED). It unifies clinical workflows, regulatory reporting, diagnostic Artificial Intelligence, and real-time communication into one interface.
 
-- Reduces clinician admin burden via intelligent EMR automation and AI-assisted documentation
+- Reduces clinician admin burden via intelligent EMR automation and Artificial Intelligence-assisted documentation
 - Improves maternal outcomes with real-time clinical decision support and ANC tracking
 - Automates monthly LB1/SP3 national reporting (hours → minutes)
 - Bridges telemedicine gap via secure WebRTC video consultations
 - Protects PHI with HMAC sessions, audit logs, and end-to-end encryption
+- Calibrated against Indonesian epidemiological patterns: DBD, ISPA, TB, maternal risk, hypertension
 
 **Target Users:**
 
@@ -141,8 +176,8 @@ _Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Health
 ### Installation
 
 ```bash
-git clone https://github.com/DocSynapse/healthcare-dashboard.git
-cd healthcare-dashboard
+git clone https://github.com/Claudesy/intelligenceBoard.git
+cd intelligenceBoard
 npm install
 npx playwright install chromium
 cp .env.example .env.local   # then fill in your credentials
@@ -985,7 +1020,7 @@ At >50 concurrent users, extract Playwright RPA and CDSS inference to separate b
 ## Project Structure
 
 ```bash
-healthcare-dashboard/
+intelligenceBoard/
 ├── server.ts                  # Custom HTTP + Socket.IO server entry
 ├── next.config.ts
 ├── tsconfig.json              # TypeScript strict mode
@@ -1169,8 +1204,8 @@ jobs:
 ### Local Setup
 
 ```bash
-git clone https://github.com/DocSynapse/healthcare-dashboard.git
-cd healthcare-dashboard
+git clone https://github.com/Claudesy/intelligenceBoard.git
+cd intelligenceBoard
 npm install && npx playwright install chromium
 cp .env.example .env.local
 npm run dev
@@ -1226,9 +1261,9 @@ text
 **Open Questions (up to 5):**
 1. Which specific Kemenkes ANC checklist should Audrey and CDSS follow per trimester?
 2. Is PostgreSQL live in production, or still file-backed? Migration timeline?
-3. Multi-facility expansion to other Puskesmas in Kota Kediri — planned?
+3. Multi-facility expansion to other Puskesmas networks — planned rollout strategy?
 4. SMS/WhatsApp gateway preference (Twilio, WATI, local provider)?
-5. Has Dinas Kesehatan Kota Kediri reviewed the system? Any data localization requirements?
+5. Has the regional Dinas Kesehatan reviewed the system? Any data localization requirements per Permenkes?
 
 ---
 
@@ -1254,7 +1289,7 @@ text
 
 Clinical use is subject to institutional policy, Indonesian law, and disclaimers in [`DISCLAIMER.md`](./DISCLAIMER.md).
 
-> Copyright © 2026 **Sentra Artificial Intelligence** — dr. Claudesy
+> Copyright © 2026 **Claudesy** — dr. Claudesy
 
 ---
 
@@ -1262,7 +1297,7 @@ Clinical use is subject to institutional policy, Indonesian law, and disclaimers
 
 Built with care for frontline healthcare workers in Indonesia. 🇮🇩
 
-_Architect & Built by [Claudesy](https://github.com/DocSynapse) · Sentra Healthcare Solutions_
+_Architect & Built by [Claudesy](https://github.com/Claudesy)_
 
 </div>
 DESIGN.md — System & UI Design Reference
