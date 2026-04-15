@@ -4,19 +4,6 @@
 
 **Indonesia Calibrated Clinical Intelligence Platform**
 
-<img src="public/intelligenceboard.png" alt="IntelligenceBoard" width="900" />
-
-[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
-[![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![FHIR](https://img.shields.io/badge/FHIR-R4-red?style=for-the-badge)](https://hl7.org/fhir/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](./LICENSE)
-
-_Architect & Built by [Claudesy](https://github.com/Claudesy)_
-
-> **"Technology enables, but humans decide."** — dr. Claudesy, Founder
-
 </div>
 
 ---
@@ -37,6 +24,23 @@ _Architect & Built by [Claudesy](https://github.com/Claudesy)_
     </td>
   </tr>
 </table>
+
+<div align="center">
+
+<img src="public/intelligenceboard.png" alt="IntelligenceBoard" width="900" />
+
+[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
+[![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![FHIR](https://img.shields.io/badge/FHIR-R4-red?style=for-the-badge)](https://hl7.org/fhir/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](./LICENSE)
+
+_Architect & Built by [Claudesy](https://github.com/Claudesy)_
+
+> **"Technology enables, but humans decide."** — dr. Claudesy, Founder
+
+</div>
 
 ---
 
