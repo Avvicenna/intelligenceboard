@@ -5,7 +5,6 @@
 **Indonesia Calibrated Clinical Intelligence Platform**
 
 </div>
----
 
 ## Overview
 
