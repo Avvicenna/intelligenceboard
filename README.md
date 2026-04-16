@@ -27,16 +27,16 @@
 
 <sub><i>Clinical Cockpit — unified real-time patient intelligence surface</i></sub>
 
-[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Claudesy)
+[![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](https://github.com/Avvicenna)
 [![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.9.0-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![FHIR](https://img.shields.io/badge/FHIR-R4-red?style=for-the-badge)](https://hl7.org/fhir/)
 [![License](https://img.shields.io/badge/License-Dual%20License-blue?style=for-the-badge)](./LICENSE)
 
-_Architect & Built by [Claudesy](https://github.com/Claudesy)_
+_Architect & Built by [Avvcenna+](https://github.com/Avvicenna)_
 
-> **"Technology enables, but humans decide."** — dr. Claudesy, Founder
+> **"Technology enables, but humans decide."** — dr. Avvcenna+, Founder
 
 </div>
 
@@ -178,7 +178,7 @@ A generic clinical dashboard treats every patient as a global baseline. A **loca
 ### Installation
 
 ```bash
-git clone https://github.com/Claudesy/intelligenceBoard.git
+git clone https://github.com/Avvicenna/intelligenceBoard.git
 cd intelligenceBoard
 npm install
 npx playwright install chromium
@@ -1206,7 +1206,7 @@ jobs:
 ### Local Setup
 
 ```bash
-git clone https://github.com/Claudesy/intelligenceBoard.git
+git clone https://github.com/Avvicenna/intelligenceBoard.git
 cd intelligenceBoard
 npm install && npx playwright install chromium
 cp .env.example .env.local
@@ -1294,7 +1294,7 @@ text
 
 Clinical use is subject to institutional policy, Indonesian law, and disclaimers in [`DISCLAIMER.md`](./DISCLAIMER.md).
 
-> Copyright © 2024–2026 **Claudesy** — dr. Ferdi Iskandar
+> Copyright © 2024–2026 **Avvcenna+** — dr. Ferdi Iskandar
 
 ---
 
@@ -1302,7 +1302,7 @@ Clinical use is subject to institutional policy, Indonesian law, and disclaimers
 
 Built with care for frontline healthcare workers in Indonesia. 🇮🇩
 
-_Architect & Built by [Claudesy](https://github.com/Claudesy)_
+_Architect & Built by [Avvcenna+](https://github.com/Avvicenna)_
 
 </div>
 DESIGN.md — System & UI Design Reference
@@ -1541,14 +1541,14 @@ flowchart TB
         sidebar["SIDEBAR<br/>-  Dashboard<br/>-  EMR<br/>-  ICD-X<br/>-  Reports<br/>-  Audrey<br/>-  ACARS<br/>-  CDSS<br/>-  Pasien<br/>-  Teleconsult"]
         
         subgraph main_content["MAIN CONTENT"]
-            profile["👤 dr. Claudesy<br/>[Doctor]<br/>Dept: Umum<br/>Last login: 07:00"]
+            profile["👤 dr. Avvcenna+<br/>[Doctor]<br/>Dept: Umum<br/>Last login: 07:00"]
             
             portals["PORTAL QUICK-LINKS<br/>[Satu Sehat] [SIPARWA]<br/>[ePuskesmas] [BPJS]"]
             
             patients["TODAY'S PATIENTS<br/>┌─────────────────┐<br/>│ MRN │ Name │ Risk │ Dx │<br/>├─────────────────┤<br/>│ PKM-001 │ Ny. Sari D. │ 🔴 │ Z34.2 │<br/>│ PKM-002 │ Tn. Budi W. │ 🟢 │ R51 │<br/>└─────────────────┘"]
         end
         
-        header["[Logo] Puskesmas Intelligence │ dr. Claudesy [⚙]"]
+        header["[Logo] Puskesmas Intelligence │ dr. Avvcenna+ [⚙]"]
     end
     
     header --> sidebar
@@ -1615,7 +1615,7 @@ flowchart TD
 
 ## License
 
-Copyright 2024–2026 **Claudesy** — dr. Ferdi Iskandar
+Copyright 2024–2026 **Avvcenna+** — dr. Ferdi Iskandar
 
 IntelligenceBoard is dual-licensed:
 
