@@ -55,5 +55,5 @@ jobs:
         run: npx prisma migrate deploy
       - name: Run Security Baseline
         run: |
-          export DATABASE_URL="${DATABASE_URL}"
+          export DATABASE_URL="${{ env.DATABASE_URL }}"
           pnpm run security:baseline
