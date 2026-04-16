@@ -1,6 +1,18 @@
 # PROGRESS.md — intelligenceBoard
 <!-- Agent MUST update at every session end or completed JET phase. -->
 
+## 2026-04-17 — Remote Migration to Avvicenna
+
+**Event:** Repo pushed to primary GitHub account.
+
+- **New remote:** `origin` → `https://github.com/Avvicenna/intelligenceBoard.git` (PRIVATE)
+- **Old remote:** preserved as `origin-claudesy` → `https://github.com/Claudesy/intelligenceboard.git`
+- **Branch pushed:** `main` (tracking `origin/main`)
+- **Working tree:** clean at migration (HEAD `f51deac` — dual license).
+- **Rollback:** `git remote rename origin-claudesy origin` restores prior state.
+
+---
+
 ## Current Status
 
 **Last updated:** 2026-04-15
