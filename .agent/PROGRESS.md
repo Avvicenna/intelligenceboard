@@ -13,6 +13,18 @@
 
 ---
 
+## 2026-04-17 — CI Fix: Ephemeral Postgres Service
+
+**Event:** Security Baseline workflow turned green on Avvicenna.
+
+- **Commit:** `53fc3c5` — `fix(ci): add ephemeral postgres service + prisma migrate for security baseline`
+- **Problem:** `security:baseline` failed because `DATABASE_URL` secret was absent on the new Avvicenna repo.
+- **Fix:** Added `services: postgres:16-alpine` container + hardcoded ephemeral `DATABASE_URL` at job level + `prisma migrate deploy` step before tests.
+- **Result:** CI run `24526826308` PASSED in 1m18s — all steps green (Install, Prisma migrate, Security Baseline).
+- **Posture:** Full security assertions preserved (no `SKIP_AUTH_HARDENING`), zero external DB dependency, zero secrets required.
+
+---
+
 ## Current Status
 
 **Last updated:** 2026-04-15
