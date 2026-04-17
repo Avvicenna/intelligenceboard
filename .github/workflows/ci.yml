@@ -54,12 +54,16 @@ jobs:
           set -o pipefail
           pnpm_log="/tmp/pnpm-install.log"
           trap 'rm -f "$pnpm_log"' EXIT
+          set +e
           pnpm install --frozen-lockfile --ignore-scripts 2>&1 | tee "$pnpm_log"
           install_exit=$?
+          set -e
           if [ "$install_exit" -ne 0 ]; then
             if grep -q "ERR_PNPM_LOCKFILE_CONFIG_MISMATCH" "$pnpm_log"; then
-              echo "⚠️ Frozen lockfile install failed due to lockfile config mismatch; retrying with --no-frozen-lockfile."
-              pnpm install --no-frozen-lockfile --ignore-scripts
+              echo "❌ Frozen lockfile install failed due to a pnpm lockfile/config mismatch."
+              echo "Regenerate and commit pnpm-lock.yaml so CI remains reproducible."
+              echo "Run 'pnpm install' locally, review pnpm-lock.yaml, and commit the updated lockfile."
+              exit "$install_exit"
             else
               exit "$install_exit"
             fi
