@@ -29,7 +29,7 @@ jobs:
           POSTGRES_PASSWORD: test_password
           POSTGRES_DB: intelligenceboard_test
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U test_user -d intelligenceboard_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -50,10 +50,12 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - name: Install Dependencies
-        run: pnpm run ci:install
+        run: pnpm install --no-frozen-lockfile --ignore-scripts && pnpm run prisma:generate
       - name: Apply Prisma migrations
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
         run: npx prisma migrate deploy
       - name: Run Security Baseline
-        run: |
-          export DATABASE_URL="${{ env.DATABASE_URL }}"
-          pnpm run security:baseline
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+        run: pnpm run security:baseline
