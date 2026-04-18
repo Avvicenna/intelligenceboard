@@ -1,8 +1,8 @@
-name: SRA — Sentra Reliability Agent
+name: SRA — Sentra Reliability Agent (Avvcenna+)
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, 'renovate/actions-checkout-6.x']
   pull_request:
     branches: [main, develop]
 
@@ -12,35 +12,24 @@ permissions:
 
 jobs:
   reliability-check:
-    name: SRA Health Scan
+    name: SRA Health Scan & Auto-Fix
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
     steps:
-      - name: SRA: Checkout Code
-        uses: actions/checkout@v6
-      
-      - name: SRA: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          
-      - name: SRA: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          
-      - name: SRA: Diagnosis & Install
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - name: SRA: Auto-Fix
         run: |
-          echo "SRA: Memulai pemeriksaan kesehatan sistem..."
           pnpm install --no-frozen-lockfile
-          
-      - name: SRA: Auto-Fix & Quality
-        run: |
           pnpm lint:fix || true
-          pnpm format || true
-          
-      - name: SRA Status Report
-        if: failure()
+      - name: SRA: Push Fixes back to Avvcenna+
         run: |
-          echo "### 🚨 LAPORAN SRA: ADA MASALAH TEKNIS" >> $GITHUB_STEP_SUMMARY
-          echo "Chief, SRA mendeteksi kegagalan pada pengecekan kualitas. Tim developer perlu memeriksa log di bawah ini agar sistem Sentra tetap andal." >> $GITHUB_STEP_SUMMARY
+          if [ -n '' ]; then
+            git config user.name 'Avvcenna+ Reliability Agent'
+            git config user.email 'sra@avvcenna.plus'
+            git add .
+            git commit -m 'fix: SRA global remediation (Avvcenna+)'
+            git push
+          fi
