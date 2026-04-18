@@ -1,0 +1,19 @@
+name: 🧹 Sweep Auto-Trigger
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'Sweep')
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Sweep AI is processing...'
+            })

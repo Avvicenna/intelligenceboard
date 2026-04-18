@@ -1,0 +1,22 @@
+name: IntelligenceBoard Sweep Configuration
+version: "1"
+
+repo:
+  name: intelligenceBoard
+  type: healthcare-dashboard
+
+rules:
+  - match: "src/**/*.ts"
+    rules:
+      - "Add comprehensive TypeScript types"
+      - "Add JSDoc documentation"
+      - "Add error handling"
+
+exclude:
+  - "node_modules/"
+  - "dist/"
+  - ".next/"
+
+settings:
+  model: "gpt-3.5-turbo"
+  temperature: 0.3
