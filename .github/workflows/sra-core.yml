@@ -18,13 +18,13 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: SRA: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      
+
       - name: SRA: Environment Sync
-        uses: pnpm/action-setup@v4
-        with: { version: 9 }
+        uses: pnpm/action-setup@v6
+        with: { version: 10 }
           
       - name: SRA: Install & Diagnosis
         run: |
