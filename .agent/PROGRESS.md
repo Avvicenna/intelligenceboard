@@ -354,3 +354,37 @@
 
 1. Monitor CI run to confirm all tests pass
 2. No further action required unless CI reveals additional issues with the Prisma 7 upgrade
+
+---
+
+## Session Update — 2026-04-19 (Dependency Dashboard - GitHub Actions Updates)
+
+### Completed: Updated all GitHub Actions to latest versions
+
+**Context:** Renovate Dependency Dashboard issue #28 flagged outdated GitHub Actions across workflow files.
+
+**Tasks completed:**
+
+- [x] Analyzed workflow files to identify outdated actions
+- [x] Updated `actions/checkout` from v4 to v6 in sra-core.yml
+- [x] Updated `actions/github-script` from v7 to v9 in sweep-trigger.yml
+- [x] Updated `pnpm/action-setup` from v4 to v6 in sra-core.yml
+- [x] Aligned pnpm version to 10 across all workflows (was 9 in sra-core.yml)
+- [x] Committed fix: 72d8a98 - "chore(deps): update GitHub Actions to latest versions"
+- [x] Pushed to PR branch `claude/update-dependencies-dashboard`
+- [x] Updated session log: .agent/sessions/2026-04-19.md
+
+**Verification summary:**
+
+| Check | Result |
+|---|---|
+| workflow files updated | ✅ sweep-trigger.yml, sra-core.yml |
+| Actions aligned with ci.yml | ✅ All using latest versions |
+| Commit pushed | ✅ 72d8a98 on PR branch |
+
+**Next steps:**
+
+1. Monitor CI workflow runs to ensure updated actions work correctly
+2. Renovate should detect these changes and close related items in the dashboard
+3. No further action required unless CI reveals issues
+
